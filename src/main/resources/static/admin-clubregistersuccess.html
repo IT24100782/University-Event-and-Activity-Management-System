@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Club Registered Successfully | SLIIT Events Hub</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#21417f", "primary-container": "#3b5998", "on-primary": "#ffffff", "primary-fixed": "#d9e2ff", "on-primary-fixed": "#001944", "secondary": "#006e25", "secondary-container": "#80f98b", "on-secondary": "#ffffff", "on-secondary-container": "#007327", "error": "#ba1a1a", "surface": "#f8f9fa", "surface-container-low": "#f3f4f5", "surface-container": "#edeeef", "surface-container-high": "#e7e8e9", "surface-container-lowest": "#ffffff", "on-surface": "#191c1d", "on-surface-variant": "#444650", "background": "#f8f9fa", "outline": "#747781", "outline-variant": "#c4c6d2"
+          },
+          fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+    }
+
+    @keyframes successPop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      80% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .success-icon {
+      animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+  </style>
+</head>
+
+<body
+  class="text-on-surface min-h-screen flex flex-col items-center justify-center px-6 py-16 bg-surface-container-low">
+  <div
+    class="max-w-md w-full bg-surface-container-lowest rounded-2xl border border-outline-variant/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] px-10 py-14 text-center space-y-6">
+    <!-- Success Icon -->
+    <div class="flex justify-center">
+      <div
+        class="success-icon w-24 h-24 rounded-full bg-secondary-container flex items-center justify-center shadow-lg">
+        <span class="material-symbols-outlined text-secondary text-5xl"
+          style="font-variation-settings: 'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48;">verified</span>
+      </div>
+    </div>
+    <!-- Text Block -->
+    <div class="space-y-3">
+      <h1 class="font-['Manrope'] text-3xl font-extrabold text-primary tracking-tight">Club Registered!</h1>
+      <p class="text-on-surface-variant leading-relaxed">The new club has been successfully registered in the Scholar
+        Hub system and will become visible to all students.</p>
+    </div>
+    <!-- Summary info -->
+    <div
+      class="bg-surface-container-low rounded-xl px-6 py-5 text-left space-y-3 border border-outline-variant/20 shadow-sm">
+      <div class="flex justify-between text-sm"><span class="text-outline">Club Name</span><span
+          class="font-semibold">New Registered Club</span></div>
+      <div class="flex justify-between text-sm"><span class="text-outline">Status</span><span
+          class="font-semibold text-secondary flex items-center gap-1"><span
+            class="material-symbols-outlined text-[14px]"
+            style="font-variation-settings: 'FILL' 1;">check_circle</span>Active</span></div>
+      <div class="flex justify-between text-sm"><span class="text-outline">Registered on</span><span
+          class="font-semibold" id="reg-date"></span></div>
+    </div>
+    <!-- Actions -->
+    <div class="flex flex-col gap-3 pt-2">
+      <a class="py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all shadow-md"
+        href="admin-clubs.html">Back to Clubs</a>
+      <a class="py-3 bg-surface-container text-on-surface rounded-xl font-bold hover:bg-surface-container-high transition-all"
+        href="admin-newclub.html">Register Another Club</a>
+    </div>
+  </div>
+  <p class="mt-6 text-xs text-outline">SLIIT Events Hub — University Event Management System</p>
+  <script>
+    document.getElementById('reg-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  </script>
+</body>
+
+</html>

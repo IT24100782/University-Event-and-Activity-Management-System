@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Club Management | Scholar Hub Admin</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#21417f","primary-container": "#3b5998","on-primary": "#ffffff","primary-fixed": "#d9e2ff","on-primary-fixed": "#001944","secondary": "#006e25","secondary-container": "#80f98b","on-secondary": "#ffffff","on-secondary-container": "#007327","tertiary": "#574000","tertiary-fixed": "#ffdf9e","on-tertiary-fixed-variant": "#5b4300","error": "#ba1a1a","error-container": "#ffdad6","on-error": "#ffffff","on-error-container": "#93000a","surface": "#f8f9fa","surface-container-low": "#f3f4f5","surface-container": "#edeeef","surface-container-high": "#e7e8e9","surface-container-lowest": "#ffffff","on-surface": "#191c1d","on-surface-variant": "#444650","background": "#f8f9fa","outline": "#747781","outline-variant": "#c4c6d2"
+          },
+          fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+  </style>
+</head>
+<body class="text-on-surface min-h-screen flex flex-col">
+
+<!-- TopNavBar Shell from Dashboard -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center">
+  <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+    <div class="flex items-center gap-8">
+      <img src="assets/images/logo.png" alt="SLIIT Events Hub" class="h-10 object-contain" data-flip-id="app-logo">
+      <nav class="hidden md:flex items-center gap-6 font-['Manrope'] font-semibold tracking-tight">
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-dashboard.html">Dashboard</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-user.html">Users</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-events.html">Events</a>
+        <a class="text-primary border-b-2 border-primary pb-1" href="admin-clubs.html">Clubs</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-venue.html">Venues</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-feedback.html">Feedback</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="relative hidden lg:block">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+        <input class="bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm w-64 focus:ring-primary focus:border-primary transition-all" placeholder="Search resources..." type="text"/>
+      </div>
+      <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg relative">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+      </button>
+      <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+      <div class="flex items-center gap-2 pl-2 border-l border-slate-200 relative cursor-pointer" onclick="document.getElementById('profileDropdown').classList.toggle('hidden')">
+        <div class="h-9 w-9 rounded-full overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center" data-flip-id="user-profile">
+          <span class="material-symbols-outlined text-slate-500">person</span>
+        </div>
+        <span class="text-sm font-semibold text-slate-700 hidden lg:block">Admin User</span>
+        <div id="profileDropdown" class="hidden absolute top-full right-0 mt-4 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+            <a href="login.html" class="flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors font-semibold">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                Logout
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-6 py-12 motion-fade-scale">
+  <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-2">
+      <h1 class="text-3xl font-extrabold font-['Manrope'] tracking-tight text-primary">Club Management</h1>
+      <p class="text-on-surface-variant font-['Inter']">Review organization registrations and manage the university's vibrant club ecosystem.</p>
+    </div>
+  </div>
+
+  <!-- Pending Registrations -->
+  <section class="space-y-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-tertiary">pending_actions</span>
+        <h2 class="text-xl font-bold font-['Manrope'] text-on-surface">Pending Club Registrations</h2>
+        <span id="pendingCount" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-tertiary-container text-on-tertiary-container">0 Requests</span>
+      </div>
+    </div>
+
+    <!-- Javascript will populate this grid -->
+    <div id="pendingClubsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <p class="col-span-3 text-slate-500 text-sm">Loading pending clubs...</p>
+    </div>
+  </section>
+
+  <!-- All Registered Clubs -->
+  <section class="space-y-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">diversity_3</span>
+        <h2 class="text-xl font-bold font-['Manrope'] text-on-surface">All Registered Clubs</h2>
+      </div>
+      <div class="flex gap-2">
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+          <input id="clubSearch" oninput="filterClubs()" class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 w-64 transition-all" placeholder="Filter clubs..." type="text"/>
+        </div>
+        <a class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition-all shadow-sm" href="admin-newclub.html">
+          <span class="material-symbols-outlined text-sm">add</span> New Club
+        </a>
+      </div>
+    </div>
+
+    <!-- Javascript will populate this grid -->
+    <div id="approvedClubsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <p class="col-span-3 text-slate-500 text-sm">Loading registered clubs...</p>
+    </div>
+  </section>
+  </section>
+</main>
+
+<!-- Unified Confirmation Modal will be added via JS/End of body -->
+<footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto">
+  <div class="max-w-[1400px] mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="text-xs">© 2024 Scholar Hub Admin. University Event Management System.</p>
+    <div class="flex gap-6 text-xs uppercase tracking-widest font-bold">
+      <a class="hover:text-white" href="#">Privacy Policy</a>
+      <a class="hover:text-white" href="#">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Fallback image if URL is missing
+  const fallbackLogo = "https://lh3.googleusercontent.com/aida-public/AB6AXuALdchI52z97GZRsKdRJQ3I5aGsx6-NgGQLMuJnUG9zukiwlEl6-ZmkXxWye5oph8i8H0Vckx8FG3y8nKie4XaDR2rqFXgQhnQbuNa1opo-SC2KS_Bp6ljH0Ie1Zxhs4DO92aF2k7AAhqV--2tpH21Z-4LLQzvReILzglosZGNtRlyYU-yEf28s_hZwh7t-rl8E6keNTUPAL0oJx_pwf_6d_KuWVX2kWwwbWhRWnYqmoWBuFU6L10p-cqNyE-J2I8Pk4hsc5l8HHiEO";
+
+  let allApprovedClubs = [];
+
+  async function loadPendingClubs() {
+    try {
+      const resp = await fetch('/api/clubs/admin/pending');
+      const data = await resp.json();
+      const grid = document.getElementById('pendingClubsGrid');
+      const count = document.getElementById('pendingCount');
+      
+      count.textContent = `${data.length} Requests`;
+      grid.innerHTML = '';
+      
+      if (data.length === 0) {
+        grid.innerHTML = '<p class="col-span-3 text-slate-500 text-sm italic">No pending club requests.</p>';
+        return;
+      }
+
+      data.forEach(club => {
+        const logo = club.logoUrl || fallbackLogo;
+        const html = `
+          <div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary shadow-sm group hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-surface-container-high rounded-lg flex items-center justify-center overflow-hidden">
+                  <img alt="Club Logo" class="w-full h-full object-cover" src="${logo}"/>
+                </div>
+                <div><h3 class="font-bold font-['Manrope'] text-lg text-slate-800">${club.name}</h3><p class="text-[10px] text-outline font-bold uppercase tracking-wider">${club.category}</p></div>
+              </div>
+            </div>
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between text-sm"><span class="text-on-surface-variant">President:</span><span class="font-semibold text-on-surface">${club.presidentEmail}</span></div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="changeClubStatus(${club.id}, 'approve')" class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-all shadow-sm">Approve</button>
+              <button onclick="showRejectModal(${club.id})" class="px-3 py-2 border border-error text-error rounded-lg text-sm font-semibold hover:bg-error-container/20 transition-all">Reject</button>
+              <a class="px-3 py-2 bg-surface-container text-primary rounded-lg text-sm font-semibold hover:bg-primary-fixed transition-all" href="admin-pendingviewprofile.html?id=${club.id}">View Profile</a>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', html);
+      });
+    } catch (e) {
+      console.error(e);
+      document.getElementById('pendingClubsGrid').innerHTML = '<p class="col-span-3 text-red-500 text-sm">Error loading data.</p>';
+    }
+  }
+
+  async function loadApprovedClubs() {
+    try {
+      const resp = await fetch('/api/clubs/admin/approved');
+      const data = await resp.json();
+      allApprovedClubs = data.filter(c => c.active !== false);
+      renderApprovedClubs(allApprovedClubs);
+    } catch (e) {
+      console.error(e);
+      document.getElementById('approvedClubsGrid').innerHTML = '<p class="col-span-3 text-red-500 text-sm">Error loading data.</p>';
+    }
+  }
+
+  function renderApprovedClubs(clubs) {
+    const grid = document.getElementById('approvedClubsGrid');
+    grid.innerHTML = '';
+    
+    if (clubs.length === 0) {
+      grid.innerHTML = '<p class="col-span-3 text-slate-500 text-sm italic">No registered clubs found.</p>';
+      return;
+    }
+
+    clubs.forEach(club => {
+      const logo = club.logoUrl || fallbackLogo;
+      const html = `
+        <div class="club-card bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm group hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 bg-surface-container-high rounded-lg flex items-center justify-center overflow-hidden">
+                <img alt="Club Logo" class="w-full h-full object-cover" src="${logo}"/>
+              </div>
+              <div><h3 class="club-name font-bold font-['Manrope'] text-lg text-slate-800">${club.name}</h3><p class="text-[10px] text-outline font-bold uppercase tracking-wider">${club.category}</p></div>
+            </div>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">President:</span><span class="font-semibold text-on-surface">${club.presidentEmail}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">Status:</span><span class="font-semibold text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Active</span></div>
+          </div>
+          <div class="flex gap-2">
+            <a class="flex-1 py-2 bg-primary text-on-primary rounded-lg text-sm font-semibold hover:opacity-90 transition-all text-center shadow-sm" href="admin-editclubsdetails.html?id=${club.id}">Edit Details</a>
+            <button onclick="showRemoveModal(${club.id})" title="Remove Club" class="px-3 py-2 border border-error text-error rounded-lg text-sm font-semibold hover:bg-error-container/20 transition-all"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+            <a class="px-3 py-2 bg-surface-container text-primary rounded-lg text-sm font-semibold hover:bg-primary-fixed transition-all" href="admin-registeredclubprofile.html?id=${club.id}">View Profile</a>
+          </div>
+        </div>
+      `;
+      grid.insertAdjacentHTML('beforeend', html);
+    });
+  }
+
+  function filterClubs() {
+    const query = document.getElementById('clubSearch').value.toLowerCase();
+    const filtered = allApprovedClubs.filter(club => club.name.toLowerCase().includes(query) || (club.category && club.category.toLowerCase().includes(query)));
+    renderApprovedClubs(filtered);
+  }
+
+  let selectedId = null;
+</script>
+
+<!-- Confirmation Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden transform animate-in zoom-in-95 duration-200">
+        <div class="p-8 text-center">
+            <div class="w-20 h-20 bg-error/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span id="modalIcon" class="material-symbols-outlined text-4xl text-error">warning</span>
+            </div>
+            <h3 id="modalTitle" class="text-2xl font-bold text-slate-900 mb-2">Are you sure?</h3>
+            <p id="modalMessage" class="text-slate-500 leading-relaxed mb-8">This action cannot be undone. Please confirm you want to proceed.</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 px-6 py-3.5 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-all border border-slate-200">Cancel</button>
+                <button id="confirmDeleteBtn" class="flex-1 px-6 py-3.5 rounded-xl font-bold text-white bg-error hover:bg-error/90 shadow-lg shadow-error/20 transition-all">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openDeleteModal(config) {
+        const modal = document.getElementById('deleteModal');
+        const icon = document.getElementById('modalIcon');
+        const title = document.getElementById('modalTitle');
+        const message = document.getElementById('modalMessage');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+
+        icon.textContent = config.icon || 'warning';
+        icon.className = `material-symbols-outlined text-4xl ${config.iconColor || 'text-error'}`;
+        icon.parentElement.className = `w-20 h-20 ${config.iconBg || 'bg-error/10'} rounded-full flex items-center justify-center mx-auto mb-6`;
+        title.textContent = config.title;
+        message.textContent = config.message;
+        confirmBtn.textContent = config.confirmText || 'Confirm';
+        confirmBtn.className = `flex-1 px-6 py-3.5 rounded-xl font-bold text-white ${config.confirmBtnClass || 'bg-error'} hover:opacity-90 transition-all shadow-lg`;
+        
+        confirmBtn.onclick = async () => {
+            await config.onConfirm();
+            closeDeleteModal();
+        };
+
+        modal.classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    function showRejectModal(id) {
+        openDeleteModal({
+            title: 'Reject Club Request',
+            message: 'Are you sure you want to reject this club request? This action cannot be undone.',
+            icon: 'block',
+            iconColor: 'text-error',
+            iconBg: 'bg-error/10',
+            confirmText: 'Reject',
+            confirmBtnClass: 'bg-error',
+            onConfirm: async () => {
+                const resp = await fetch(`/api/clubs/${id}/reject`, { method: 'POST' });
+                if (resp.ok) loadPendingClubs();
+                else alert("Failed to reject club.");
+            }
+        });
+    }
+
+    function showRemoveModal(id) {
+        openDeleteModal({
+            title: 'Remove Registered Club',
+            message: 'Are you sure you want to remove this active club? This action cannot be undone.',
+            icon: 'delete',
+            iconColor: 'text-error',
+            iconBg: 'bg-error/10',
+            confirmText: 'Remove',
+            confirmBtnClass: 'bg-error',
+            onConfirm: async () => {
+                const resp = await fetch(`/api/clubs/${id}`, { method: 'DELETE' });
+                if (resp.ok) loadApprovedClubs();
+                else alert("Failed to remove club.");
+            }
+        });
+    }
+
+    async function changeClubStatus(id, action) {
+        if(action === 'approve') {
+            openDeleteModal({
+                title: 'Approve Club',
+                message: 'Are you sure you want to approve this club registration?',
+                icon: 'check_circle',
+                iconColor: 'text-primary',
+                iconBg: 'bg-primary/10',
+                confirmText: 'Approve',
+                confirmBtnClass: 'bg-primary',
+                onConfirm: async () => {
+                    const resp = await fetch(`/api/clubs/${id}/approve`, { method: 'POST' });
+                    if (resp.ok) {
+                        loadPendingClubs();
+                        loadApprovedClubs();
+                    } else {
+                        alert("Failed to approve club.");
+                    }
+                }
+            });
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadPendingClubs();
+        loadApprovedClubs();
+        startAdminPolling();
+    });
+
+    // Professional Real-time polling for admin
+    function startAdminPolling() {
+        setInterval(() => {
+            loadPendingClubs();
+            // We don't necessarily need to reload approved clubs as often unless they change status
+        }, 15000); // Check for new requests every 15 seconds
+    }
+</script>
+
+    <script src="assets/js/transitions.js"></script>
+</body>
+</html>
