@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Club Admin | All Feedbacks</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#21417f",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#444650",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-lowest": "#ffffff",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .feedback-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .feedback-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.1); }
+        .tab-active { background-color: #eff6ff; color: #21417f; border: 1px solid #dbeafe; }
+        body { background-color: #f8fafc; }
+    </style>
+</head>
+<body class="font-body text-on-surface antialiased">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+            <div class="flex items-center gap-12" id="navContainer">
+                <!-- Nav populated via roles -->
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-slate-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="flex items-center gap-3 pl-3 border-l border-slate-200 relative cursor-pointer group" onclick="document.getElementById('profileDropdown').classList.toggle('hidden')">
+                    <div class="h-9 w-9 rounded-full bg-slate-210 overflow-hidden border border-slate-200 flex items-center justify-center">
+                        <img id="userAvatar" src="https://lh3.googleusercontent.com/a/default-user=s128" alt="User" class="w-full h-full object-cover">
+                    </div>
+                    <span id="userName" class="text-sm font-semibold text-slate-700 hidden lg:block">User</span>
+                    <span class="material-symbols-outlined text-sm text-slate-400">expand_more</span>
+                    <div id="profileDropdown" class="hidden absolute top-full right-0 mt-4 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+                        <div class="px-4 py-2 border-b border-slate-100 mb-1">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Account</p>
+                        </div>
+                        <a href="profile.html" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">person</span>My Profile
+                        </a>
+                        <div class="h-[1px] bg-slate-100 my-1 mx-2"></div>
+                        <a href="javascript:void(0)" onclick="logout()" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold">
+                            <span class="material-symbols-outlined text-[18px]">logout</span>Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold font-headline text-slate-900 mb-2">Event Feedback</h1>
+            <p class="text-slate-500">Share your experience or read what others have to say</p>
+        </div>
+
+        <!-- Standard Tabs -->
+        <div class="flex justify-center mb-12">
+            <div id="feedbackTabs" class="inline-flex p-1 bg-white rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="window.location.href='clubadmin-feedback.html?tab=submit'" class="px-6 py-3 text-sm font-semibold rounded-xl text-slate-500 hover:bg-slate-50 transition-colors">Submit Feedback</button>
+                <button class="px-6 py-3 text-sm font-bold rounded-xl tab-active">All Feedbacks</button>
+                <button onclick="window.location.href='student-mysentfeedback.html'" class="px-6 py-3 text-sm font-semibold rounded-xl text-slate-500 hover:bg-slate-50 transition-colors">My Sent Feedbacks <span id="mySentCount"></span></button>
+                <button id="analyticsTabBtn" onclick="window.location.href='clubadmin-feedback.html'" class="hidden px-6 py-3 text-sm font-semibold rounded-xl text-slate-500 hover:bg-slate-50 transition-colors">Club Event Analytics</button>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+            <div>
+                <h2 class="text-2xl font-bold font-headline text-slate-900 mb-2">All Feedback Submissions</h2>
+                <p class="text-slate-500">A complete history of responses from your event attendees.</p>
+            </div>
+            <div class="flex gap-4">
+                <select id="ratingFilter" onchange="filterFeedbacks()" class="rounded-xl border-slate-200 focus:border-primary focus:ring-primary/20 py-2.5 px-4 font-semibold text-slate-600 bg-white">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars only</option>
+                    <option value="4">4 Stars & above</option>
+                    <option value="3">3 Stars & below</option>
+                </select>
+                <button onclick="exportCSV()" class="bg-white border border-slate-200 text-slate-700 px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-lg text-primary">download</span>
+                    Export CSV
+                </button>
+            </div>
+        </div>
+
+        <div id="feedbackGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Loaded via JS -->
+            <div class="col-span-full py-20 text-center">
+                <span class="material-symbols-outlined animate-spin text-4xl text-primary">sync</span>
+                <p class="mt-4 text-slate-400 font-medium uppercase tracking-widest text-xs">Fetching feedbacks...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let allFeedbacks = [];
+        const user = JSON.parse(localStorage.getItem('user'));
+        let feedbackPollingInterval = null;
+
+        if (!user) { window.location.href = 'login.html'; }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('userName').textContent = user.name;
+            if (user.avatar) document.getElementById('userAvatar').src = user.avatar;
+            renderNavBar();
+            renderFeedbackTabs();
+            await fetchAllFeedbacks();
+            updateMySentCount();
+
+            // Start polling for live updates
+            feedbackPollingInterval = setInterval(fetchAllFeedbacks, 5000);
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const dropdown = document.getElementById('profileDropdown');
+                const profileBtn = dropdown.parentElement;
+                if (!profileBtn.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+
+        function renderFeedbackTabs() {
+            if (user.role === 'CLUB_ADMIN') {
+                document.getElementById('analyticsTabBtn').classList.remove('hidden');
+            }
+        }
+
+        async function updateMySentCount() {
+            try {
+                const resp = await fetch(`/api/feedback/student/${user.id}`);
+                const data = await resp.json();
+                document.getElementById('mySentCount').textContent = `(${data.length})`;
+            } catch (e) { console.error(e); }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        function renderNavBar() {
+            const nav = document.getElementById('navContainer');
+            const logo = `<div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='clubadmin-dashboard.html'">
+                <img src="assets/images/logo.png" alt="Scholar Hub" class="h-8 md:h-10">
+            </div>`;
+            
+            let links = `
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-dashboard.html">Dashboard</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-myclub.html">My Club</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-events.html">Events</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-clubs.html">Clubs</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-venue.html">Venues</a>
+                    <a class="text-primary border-b-2 border-primary pb-1 font-bold" href="clubadmin-feedback.html">Feedback</a>
+                </nav>
+            `;
+            nav.innerHTML = logo + links;
+        }
+
+        async function fetchAllFeedbacks() {
+            try {
+                // Find club ID
+                const clubResp = await fetch(`/api/clubs/organizer/${user.id}`);
+                const clubs = await clubResp.json();
+                if (clubs.length === 0) return;
+                const clubId = clubs[0].id;
+
+                // Load all completed events first or directly fetch all feedbacks related to this club's events
+                // For now, let's fetch all completed events and gather feedbacks
+                const eventsResp = await fetch(`/api/events`);
+                const allEvents = await eventsResp.json();
+                const myEventIds = allEvents.filter(e => e.organizerId === clubId).map(e => e.id);
+
+                allFeedbacks = [];
+                for (const id of myEventIds) {
+                    const fResp = await fetch(`/api/feedback/event/${id}`);
+                    if (fResp.ok) {
+                        const feedbacks = await fResp.json();
+                        allFeedbacks.push(...feedbacks);
+                    }
+                }
+
+                allFeedbacks.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+                renderFeedbacks(allFeedbacks);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderFeedbacks(data) {
+            const grid = document.getElementById('feedbackGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-20 text-center bg-white rounded-3xl border border-slate-100 italic text-slate-400">No feedbacks received yet.</div>`;
+                return;
+            }
+
+            data.forEach(f => {
+                const date = new Date(f.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const card = `
+                    <div class="feedback-card bg-white p-6 rounded-3xl border border-slate-100 flex flex-col justify-between animate-in fade-in zoom-in duration-500">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
+                                    <p class="text-[10px] font-black text-primary uppercase tracking-widest leading-none">${f.event.title}</p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-amber-400 text-lg" style="font-variation-settings:'FILL' 1">star</span>
+                                    <span class="font-black text-slate-800">${f.rating.toFixed(1)}</span>
+                                </div>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-8 italic">"${f.comment || 'No comment provided.'}"</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-6 border-t border-slate-50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                    <span class="material-symbols-outlined text-lg">person</span>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700">${f.student ? f.student.name : 'Anonymous'}</span>
+                            </div>
+                            <span class="text-[11px] font-medium text-slate-400">${date}</span>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', card);
+            });
+        }
+
+        function filterFeedbacks() {
+            const filter = document.getElementById('ratingFilter').value;
+            let filtered = allFeedbacks;
+            
+            if (filter === '5') filtered = allFeedbacks.filter(f => f.rating === 5);
+            else if (filter === '4') filtered = allFeedbacks.filter(f => f.rating >= 4);
+            else if (filter === '3') filtered = allFeedbacks.filter(f => f.rating <= 3);
+            
+            renderFeedbacks(filtered);
+        }
+
+        function exportCSV() {
+            // Simple mock export
+            alert("Exporting CSV of " + allFeedbacks.length + " feedbacks...");
+        }
+    </script>
+</body>
+</html>
