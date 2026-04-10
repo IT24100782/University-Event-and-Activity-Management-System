@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Register New Club | Club Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#21417f","primary-container": "#3b5998","on-primary": "#ffffff","primary-fixed": "#d9e2ff","on-primary-fixed": "#001944","secondary": "#006e25","secondary-container": "#80f98b","on-secondary": "#ffffff","on-secondary-container": "#007327","error": "#ba1a1a","error-container": "#ffdad6","on-error": "#ffffff","on-error-container": "#93000a","surface": "#f8f9fa","surface-container-low": "#f3f4f5","surface-container": "#edeeef","surface-container-high": "#e7e8e9","surface-container-lowest": "#ffffff","on-surface": "#191c1d","on-surface-variant": "#444650","background": "#f8f9fa","outline": "#747781","outline-variant": "#c4c6d2"
+          },
+          fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+  </style>
+</head>
+<body class="text-on-surface min-h-screen flex flex-col">
+
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center shadow-sm">
+<nav class="flex justify-between items-center w-full px-8 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='clubadmin-dashboard.html'">
+    <img src="assets/images/logo.png" alt="Scholar Hub" class="h-8 md:h-10">
+</div>
+<nav class="hidden md:flex items-center gap-6 font-semibold tracking-tight">
+<a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-dashboard.html">Dashboard</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-myclub.html">My Club</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-events.html">Events</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold font-headline" href="clubadmin-clubs.html">Clubs</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-venue.html">Venues</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-feedback.html">Feedback</a>
+</nav>
+</div>
+</nav>
+</header>
+
+<main class="flex-grow max-w-3xl mx-auto px-8 py-12 space-y-8 w-full">
+  <div class="flex items-center gap-3">
+    <a class="text-primary hover:opacity-80 flex items-center gap-1 font-medium" href="clubadmin-clubs.html"><span class="material-symbols-outlined">arrow_back</span>Back to Clubs</a>
+  </div>
+  <div>
+    <h1 class="text-3xl font-headline font-extrabold text-primary mb-1">Register Your Club</h1>
+    <p class="text-on-surface-variant">Formalize your organization and start managing campus events.</p>
+  </div>
+  
+  <form id="newClubForm" class="space-y-8">
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-primary"></div>
+        <h2 class="font-headline font-bold text-lg">Organization Profile</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Club Name</label>
+          <input id="clubName" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="e.g. IEEE Student Branch" type="text"/>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Primary Category</label>
+          <select id="clubCategory" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 appearance-none">
+            <option disabled selected value="">Select Category</option>
+            <option value="Academic">Academic</option>
+            <option value="Technology">Technology</option>
+            <option value="Sports">Sports</option>
+            <option value="Arts">Arts & Culture</option>
+            <option value="Service">Community Service</option>
+          </select>
+        </div>
+        <div class="md:col-span-2 space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">About / Mission</label>
+          <textarea id="clubDescription" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 h-28 resize-none" placeholder="What does your club do?"></textarea>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Logo</label>
+          <input id="clubLogo" type="file" accept="image/*" class="w-full bg-surface-container-low rounded-lg px-4 py-2.5 text-sm"/>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Cover Photo</label>
+          <input id="clubCover" type="file" accept="image/*" class="w-full bg-surface-container-low rounded-lg px-4 py-2.5 text-sm"/>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-primary"></div>
+        <h2 class="font-headline font-bold text-lg">Leadership & Contact</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="space-y-1.5 md:col-span-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">President Email (Auto-filled)</label>
+          <input id="presidentEmail" readonly class="w-full bg-surface-container-high rounded-lg px-4 py-3 text-sm border-none text-slate-500 cursor-not-allowed" type="email"/>
+        </div>
+        <div class="space-y-1.5 md:col-span-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Club Contact Email</label>
+          <input id="clubEmail" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20" placeholder="contact@clubname.edu" type="email"/>
+        </div>
+      </div>
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-secondary"></div>
+        <h2 class="font-headline font-bold text-lg">Activities & Membership</h2>
+      </div>
+
+      <!-- Planned Activities Checklist -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Planned Activities</label>
+        <div class="grid grid-cols-2 gap-3" id="activitiesGroup">
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Workshops" class="accent-primary w-4 h-4"> <span class="text-sm">Workshops</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Hackathons" class="accent-primary w-4 h-4"> <span class="text-sm">Hackathons</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Seminars" class="accent-primary w-4 h-4"> <span class="text-sm">Seminars</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Community Outreach" class="accent-primary w-4 h-4"> <span class="text-sm">Community Outreach</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Social Events" class="accent-primary w-4 h-4"> <span class="text-sm">Social Events</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Competitions" class="accent-primary w-4 h-4"> <span class="text-sm">Competitions</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Tech Talks" class="accent-primary w-4 h-4"> <span class="text-sm">Tech Talks</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Sports Tournaments" class="accent-primary w-4 h-4"> <span class="text-sm">Sports Tournaments</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Frequency of Events -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Frequency of Events</label>
+        <select id="eventFrequency" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 appearance-none">
+          <option disabled selected value="">Select Frequency</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Bi-Weekly">Bi-Weekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+        </select>
+      </div>
+
+      <!-- Membership Type (Multiple) -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Membership Types</label>
+        <div class="grid grid-cols-2 gap-3" id="membershipGroup">
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Free" class="accent-secondary w-4 h-4"> <span class="text-sm">Free</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Paid - Semester" class="accent-secondary w-4 h-4"> <span class="text-sm">Paid - Semester</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Paid - Annual" class="accent-secondary w-4 h-4"> <span class="text-sm">Paid - Annual</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Donation-Based" class="accent-secondary w-4 h-4"> <span class="text-sm">Donation-Based</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <div class="flex gap-4 pt-4">
+      <button id="submitBtn" class="flex-1 py-4 bg-primary text-white rounded-xl font-bold hover:opacity-90 shadow-lg shadow-primary/20 transition-all flex justify-center items-center gap-2" type="submit">
+        <span>Register Club</span>
+      </button>
+      <a class="flex-1 py-4 bg-surface-container text-on-surface rounded-xl font-bold text-center" href="clubadmin-clubs.html">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<script>
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+      document.getElementById('presidentEmail').value = user.email;
+  }
+
+  // ── Check if this Club Admin already has a club ──
+  (async function checkExistingClub() {
+    if (!user || !user.email) return;
+    try {
+      const resp = await fetch(`/api/clubs/organizer-email/${encodeURIComponent(user.email)}`);
+      if (resp.ok) {
+        const clubs = await resp.json();
+        if (clubs.length > 0) {
+          // Hide the form and show a blocked message
+          document.getElementById('newClubForm').style.display = 'none';
+          const msg = document.createElement('div');
+          msg.className = 'bg-amber-50 border border-amber-300 rounded-xl p-8 text-center space-y-4';
+          msg.innerHTML = `
+            <span class="material-symbols-outlined text-5xl text-amber-500">info</span>
+            <h2 class="text-xl font-headline font-bold text-amber-800">Club Already Registered</h2>
+            <p class="text-amber-700">You have already registered a club (<strong>${clubs[0].name}</strong>). 
+               Each Club Admin is allowed only <strong>one</strong> club.</p>
+            <a href="clubadmin-myclub.html" class="inline-block mt-4 px-6 py-3 bg-primary text-white rounded-xl font-bold hover:opacity-90 transition-all">Go to My Club</a>
+          `;
+          document.querySelector('main').appendChild(msg);
+        }
+      }
+    } catch(e) { console.error('Failed to check existing clubs', e); }
+  })();
+
+  async function uploadFile(fileInput) {
+    if (!fileInput.files || fileInput.files.length === 0) return null;
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    try {
+      const resp = await fetch('/api/upload', { method: 'POST', body: formData });
+      if (resp.ok) {
+        const data = await resp.json();
+        return data.url;
+      }
+      return null;
+    } catch (e) { return null; }
+  }
+
+  document.getElementById('newClubForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Deploying...`;
+
+    let logoUrl = await uploadFile(document.getElementById('clubLogo'));
+    let coverUrl = await uploadFile(document.getElementById('clubCover'));
+
+    const clubData = {
+      name: document.getElementById('clubName').value,
+      category: document.getElementById('clubCategory').value,
+      description: document.getElementById('clubDescription').value,
+      presidentEmail: document.getElementById('presidentEmail').value,
+      email: document.getElementById('clubEmail').value,
+      logoUrl: logoUrl || "",
+      coverUrl: coverUrl || "",
+      active: false,
+      approvalStatus: "PENDING",
+      plannedActivities: Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(cb => cb.value).join(','),
+      eventFrequency: document.getElementById('eventFrequency').value,
+      membershipType: Array.from(document.querySelectorAll('input[name="membershipType"]:checked')).map(cb => cb.value).join(',')
+    };
+
+    try {
+      const resp = await fetch('/api/clubs?role=CLUB_ADMIN', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clubData)
+      });
+      if (resp.ok) {
+        window.location.href = 'clubadmin-registrationpending.html';
+      } else {
+        const err = await resp.json().catch(() => null);
+        alert(err?.error || "Registration failed. You may already have a registered club.");
+      }
+    } catch(err) { alert(err.message); }
+    btn.disabled = false;
+    btn.innerHTML = "Register Club";
+  });
+</script>
+</body></html>

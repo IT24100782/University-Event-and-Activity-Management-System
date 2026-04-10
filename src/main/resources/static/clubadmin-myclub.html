@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>My Club - Club Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/transitions.css">
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "on-primary": "#ffffff",
+                  "primary": "#21417f",
+                  "background": "#f8f9fa",
+                  "on-error-container": "#93000a",
+                  "on-error": "#ffffff",
+                  "tertiary": "#574000",
+                  "primary-fixed-dim": "#afc6ff",
+                  "secondary-container": "#80f98b",
+                  "on-background": "#191c1d",
+                  "on-surface": "#191c1d",
+                  "on-tertiary-container": "#ffcc55",
+                  "inverse-primary": "#afc6ff",
+                  "secondary-fixed-dim": "#66df75",
+                  "outline-variant": "#c4c6d2",
+                  "surface-tint": "#3f5d9c",
+                  "error": "#ba1a1a",
+                  "surface-bright": "#f8f9fa",
+                  "secondary": "#006e25",
+                  "on-tertiary-fixed-variant": "#5b4300",
+                  "inverse-surface": "#2e3132",
+                  "error-container": "#ffdad6",
+                  "on-tertiary-fixed": "#261a00",
+                  "on-secondary-fixed": "#002106",
+                  "surface-container": "#edeeef",
+                  "on-primary-fixed-variant": "#254583",
+                  "surface-dim": "#d9dadb",
+                  "on-secondary-fixed-variant": "#00531a",
+                  "on-primary-fixed": "#001944",
+                  "secondary-fixed": "#83fc8e",
+                  "surface": "#f8f9fa",
+                  "inverse-on-surface": "#f0f1f2",
+                  "on-tertiary": "#ffffff",
+                  "on-primary-container": "#c2d2ff",
+                  "primary-fixed": "#d9e2ff",
+                  "on-secondary": "#ffffff",
+                  "surface-container-low": "#f3f4f5",
+                  "on-secondary-container": "#007327",
+                  "surface-container-highest": "#e1e3e4",
+                  "on-surface-variant": "#444650",
+                  "surface-variant": "#e1e3e4",
+                  "surface-container-lowest": "#ffffff",
+                  "primary-container": "#3b5998",
+                  "outline": "#747781",
+                  "tertiary-fixed": "#ffdf9e"
+                },
+                fontFamily: {
+                  "headline": ["Manrope"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        h1, h2, .font-headline { font-family: 'Manrope', sans-serif; }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+            <div class="flex items-center gap-12">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='clubadmin-dashboard.html'">
+                    <img src="assets/images/logo.png" alt="Scholar Hub" class="h-8 md:h-10" data-flip-id="app-logo">
+                </div>
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-dashboard.html">Dashboard</a>
+                    <a class="text-primary border-b-2 border-primary pb-1 font-bold" href="clubadmin-myclub.html">My Club</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-events.html">Events</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-clubs.html">Clubs</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-venue.html">Venues</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="clubadmin-feedback.html">Feedback</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative p-1 text-slate-500 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined align-middle" style="font-variation-settings: 'FILL' 1">notifications</span>
+                </button>
+                <div class="flex items-center gap-3 pl-3 border-l border-slate-200 relative cursor-pointer group" onclick="document.getElementById('profileDropdown').classList.toggle('hidden')">
+                    <div class="h-9 w-9 rounded-full overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center" data-flip-id="user-profile">
+                        <span class="material-symbols-outlined text-slate-500">person</span>
+                    </div>
+                    <span id="userNameHeader" class="text-sm font-semibold text-slate-700 hidden lg:block">Club Admin</span>
+                    <span class="material-symbols-outlined text-sm text-slate-400">expand_more</span>
+                    
+                    <div id="profileDropdown" class="hidden absolute top-full right-0 mt-4 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+                        <a href="profile.html" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                            My Profile
+                        </a>
+                        <div class="h-[1px] bg-slate-100 my-1 mx-2"></div>
+                        <a href="#" onclick="logout()" class="flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors font-semibold">
+                            <span class="material-symbols-outlined text-[18px]">logout</span>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-screen motion-fade-scale">
+        <!-- Toast Notification Container -->
+        <div id="toastContainer" class="fixed top-20 right-6 z-[100] flex flex-col gap-3"></div>
+
+        <!-- Clubs List State (Master View) -->
+        <div id="clubsListState" class="hidden max-w-7xl mx-auto px-6 pt-12 pb-24 animate-in fade-in duration-500">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold font-headline text-slate-900 mb-2">My Clubs</h1>
+                    <p class="text-outline text-lg">Manage and monitor your registered organizations.</p>
+                </div>
+                <button onclick="window.location.href='clubadmin-newclub.html'" class="bg-primary text-white px-6 py-3.5 rounded-xl font-bold hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 magnetic-btn">
+                    <span class="material-symbols-outlined font-bold">add</span>
+                    Register New Club
+                </button>
+            </div>
+            <div id="myClubsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Data populated via JS -->
+            </div>
+        </div>
+
+        <div id="loadingState" class="max-w-7xl mx-auto px-6 pt-20 text-center">
+
+            <span class="material-symbols-outlined animate-spin text-4xl text-primary">sync</span>
+            <p class="mt-4 text-outline font-medium tracking-widest text-xs uppercase">Connecting to club services...</p>
+        </div>
+
+        <div id="emptyState" class="hidden max-w-7xl mx-auto px-6 pt-20 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="w-24 h-24 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 rotate-3">
+                <span class="material-symbols-outlined text-5xl text-primary">groups_2</span>
+            </div>
+            <h1 class="text-3xl font-extrabold font-headline text-slate-900 mb-4">You Don't Have a Club Yet</h1>
+            <p class="text-outline text-lg max-w-lg mx-auto mb-10 leading-relaxed">Join the campus leadership! Register your organization to start managing members and hosting events.</p>
+            <button onclick="window.location.href='clubadmin-newclub.html'" class="bg-primary text-white px-10 py-4 rounded-xl font-bold hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-3 mx-auto magnetic-btn">
+                <span class="material-symbols-outlined font-bold">add</span>
+                Register Your Club
+            </button>
+        </div>
+
+        <div id="pendingState" class="hidden max-w-7xl mx-auto px-6 pt-20 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="w-24 h-24 bg-tertiary/10 rounded-3xl flex items-center justify-center mx-auto mb-8 relative">
+                <span class="material-symbols-outlined text-5xl text-tertiary animate-pulse">pending_actions</span>
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-tertiary text-white rounded-full flex items-center justify-center animate-bounce">
+                    <span class="material-symbols-outlined text-xs">priority_high</span>
+                </div>
+            </div>
+            <h1 class="text-3xl font-extrabold font-headline text-slate-900 mb-4">Registration Under Review</h1>
+            <p class="text-outline text-lg max-w-lg mx-auto mb-6 leading-relaxed">Your club <span id="pendingClubName" class="text-primary font-bold">"Organization Name"</span> has been submitted and is currently being reviewed by the administration.</p>
+            
+            <div class="max-w-md mx-auto bg-white rounded-2xl p-6 border border-outline-variant/30 shadow-sm mb-10">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-slate-500">schedule</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-sm font-bold text-slate-800">Review Timeline</p>
+                        <p class="text-xs text-outline">Usually takes 24-48 business hours</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-xs text-on-surface-variant">
+                        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+                        <span>Club details submitted successfully</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-on-surface-variant">
+                        <span class="material-symbols-outlined text-tertiary text-sm animate-spin">sync</span>
+                        <span class="font-semibold text-tertiary">Waiting for admin approval</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-slate-300">
+                        <span class="material-symbols-outlined text-sm">circle</span>
+                        <span>Dashboard activation</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-outline text-sm italic mb-10">This page will automatically update once your club is approved.</p>
+            
+            <button onclick="window.location.href='clubadmin-dashboard.html'" class="text-primary font-bold hover:underline flex items-center gap-2 mx-auto transition-all">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Go back to Dashboard
+            </button>
+        </div>
+
+
+        <div id="clubContent" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <!-- Back Button -->
+            <div class="mb-4 mt-6 flex items-center">
+                <button onclick="showClubsList()" class="text-primary hover:text-primary-container font-semibold flex items-center gap-1 transition-colors group">
+                    <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Back to My Clubs
+                </button>
+            </div>
+
+            <!-- Hero Header -->
+            <section class="relative mt-6 mb-10 overflow-hidden rounded-3xl shadow-sm border border-outline-variant/20 bg-white group">
+                <div class="h-64 w-full bg-slate-200 overflow-hidden relative">
+                    <img id="clubCoverImg" alt="Club Cover Photo" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400"/>
+                    <div class="absolute inset-0 hero-gradient"></div>
+                    <div id="approvalBadge" class="absolute top-6 right-6 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg flex items-center gap-2">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <div class="px-8 py-8 relative flex flex-col md:flex-row items-center md:items-end gap-6">
+                    <div class="w-32 h-32 bg-white rounded-2xl p-2 shadow-lg -mt-16 relative z-10 flex-shrink-0 border border-outline-variant/20">
+                        <div class="w-full h-full bg-primary-container rounded-xl flex items-center justify-center overflow-hidden">
+                            <img id="clubLogoImg" alt="Club Logo" class="w-full h-full object-cover hidden" src=""/>
+                            <span id="clubLogoFallback" class="material-symbols-outlined text-on-primary text-5xl" style="font-variation-settings: 'FILL' 1;">groups</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+                             <h1 id="clubTitle" class="text-3xl font-extrabold font-headline tracking-tight text-on-surface">Club Name</h1>
+                             <span id="categoryTag" class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-lg w-fit mx-auto md:mx-0">Academic</span>
+                        </div>
+                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 text-on-surface-variant text-sm font-medium">
+                            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-base">group</span> <span id="memberCount">0</span> Members</span>
+                            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-base">mail</span> <span id="clubEmail">contact@univ.edu</span></span>
+                            <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-base">location_on</span> Campus Center</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="window.location.href='clubadmin-editclubsdetails.html?id=' + currentClubId" class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:brightness-110 transition-all shadow-md active:scale-95">
+                            <span class="material-symbols-outlined text-lg">edit</span>
+                            Edit Club Details
+                        </button>
+                        <a href="clubadmin-newclub.html" class="bg-secondary/10 text-secondary px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-secondary/20 transition-all border border-secondary/20 active:scale-95">
+                            <span class="material-symbols-outlined text-lg">add_circle</span>
+                            Register Another Club
+                        </a>
+                        <button onclick="deleteClub(currentClubId)" class="bg-error/10 text-error px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-error/20 transition-all border border-error/20 active:scale-95">
+                            <span class="material-symbols-outlined text-lg">delete</span>
+                            Delete Club
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activities & Membership Info Card -->
+            <section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_12px_40px_rgba(25,28,29,0.06)] border border-outline-variant/10 mb-8">
+                <h2 class="text-xl font-bold font-headline text-on-surface mb-5 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">interests</span>
+                    Activities & Membership
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="space-y-2">
+                        <span class="text-[0.6875rem] uppercase tracking-wider text-outline font-bold">Planned Activities</span>
+                        <div id="clubActivities" class="flex flex-wrap gap-2">Not specified</div>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-[0.6875rem] uppercase tracking-wider text-outline font-bold">Event Frequency</span>
+                        <p id="clubFrequency" class="text-sm font-semibold text-on-surface">N/A</p>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-[0.6875rem] uppercase tracking-wider text-outline font-bold">Membership Types</span>
+                        <div id="clubMembership" class="flex flex-wrap gap-2">Not specified</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Two-Column Main Content -->
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+                <!-- Left Column: Club Members & Applications -->
+                <div class="xl:col-span-12 flex flex-col gap-8">
+                    <!-- Pending Applications -->
+                    <section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_12px_40px_rgba(25,28,29,0.06)] border border-outline-variant/10">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold font-headline text-on-surface flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                                Pending Join Requests
+                                <span id="pendingRequestsCount" class="text-outline font-normal text-sm">(0)</span>
+                            </h2>
+                        </div>
+                        <div id="pendingRequestsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <p class="col-span-2 text-slate-500 text-sm italic py-4 text-center">No pending join requests at the moment.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Split Grid -->
+                <!-- Active Members List -->
+                <div class="xl:col-span-7">
+                    <section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_12px_40px_rgba(25,28,29,0.06)] border border-outline-variant/10 h-full">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                            <div>
+                                <h2 class="text-xl font-bold font-headline text-on-surface">Active Members</h2>
+                                <p class="text-sm text-outline">Manage your existing community</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="text-[0.6875rem] font-bold text-outline uppercase tracking-wider border-b border-outline-variant/10">
+                                    <tr>
+                                        <th class="pb-4">Member</th>
+                                        <th class="pb-4">Status</th>
+                                        <th class="pb-4">Join Date</th>
+                                        <th class="pb-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membersTableBody" class="divide-y divide-outline-variant/10">
+                                    <tr>
+                                        <td colspan="4" class="py-8 text-center text-slate-500 text-sm italic">No active members found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+
+                <!-- Published Events -->
+                <div class="xl:col-span-5 flex flex-col gap-8">
+                    <section class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_12px_40px_rgba(25,28,29,0.06)] h-fit border border-outline-variant/10">
+                        <div class="flex justify-between items-center mb-8">
+                            <div>
+                                <h2 class="text-xl font-bold font-headline text-on-surface">Published Events</h2>
+                                <p class="text-sm text-outline">Active and past club gatherings</p>
+                            </div>
+                            <button onclick="window.location.href='clubadmin-newevent.html'" class="bg-primary text-on-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-1 hover:brightness-110 active:scale-95 transition-all shadow-md">
+                                <span class="material-symbols-outlined text-sm">add</span> New
+                            </button>
+                        </div>
+                        <div id="eventsList" class="space-y-6">
+                            <p class="text-slate-500 text-sm italic">Loading events...</p>
+                        </div>
+                        <button class="w-full mt-8 py-3 border-2 border-dashed border-outline-variant/50 text-outline rounded-2xl text-sm font-semibold hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">history</span> View All Past Events
+                        </button>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FAB for Quick Actions -->
+    <button onclick="window.location.href='clubadmin-newevent.html'" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 group">
+        <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">add</span>
+        <span class="absolute right-16 bg-on-surface text-surface text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl">New Event</span>
+    </button>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) window.location.href = 'login.html';
+
+        let currentClubId = null;
+        let allAdminClubs = []; // all clubs belonging to this admin
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestedClubId = urlParams.get('clubId') ? parseInt(urlParams.get('clubId')) : null;
+
+        document.getElementById('userNameHeader').textContent = user.name || 'Club Admin';
+        // if (user.avatarUrl) document.getElementById('userAvatar').src = user.avatarUrl;
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const icon = type === 'success' ? 'check_circle' : 'error';
+            const color = type === 'success' ? 'bg-secondary text-white' : 'bg-error text-white';
+            
+            toast.className = `${color} px-6 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-right-6 duration-300 transform transition-all hover:scale-105`;
+            toast.innerHTML = `
+                <span class="material-symbols-outlined">${icon}</span>
+                <span class="font-bold text-sm tracking-tight">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-[100%]');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        async function init() {
+            await checkUserClub();
+        }
+
+        function showEmptyState() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('clubContent').classList.add('hidden');
+            document.getElementById('pendingState').classList.add('hidden');
+            document.getElementById('clubsListState').classList.add('hidden');
+        }
+
+        function showPendingState(club) {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('clubContent').classList.add('hidden');
+            document.getElementById('pendingState').classList.remove('hidden');
+            document.getElementById('clubsListState').classList.add('hidden');
+            document.getElementById('pendingClubName').textContent = club.name;
+        }
+
+        function showClubDashboard(club) {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('pendingState').classList.add('hidden');
+            document.getElementById('clubsListState').classList.add('hidden');
+            document.getElementById('clubContent').classList.remove('hidden');
+            renderClub(club);
+            loadClubEvents(club.id);
+            loadMembershipData(club.id);
+        }
+
+        async function checkUserClub() {
+            try {
+                // Fetch clubs associated with this user
+                let res = await fetch(`/api/clubs/organizer/${user.id}?t=${Date.now()}`);
+                
+                if (res.status === 404 && user.email) {
+                    res = await fetch(`/api/clubs/organizer-email/${user.email}?t=${Date.now()}`);
+                }
+                
+                if (res.ok) {
+                    const clubs = await res.json();
+                    if (clubs && clubs.length > 0) {
+                        allAdminClubs = clubs;
+
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const rId = urlParams.get('clubId') ? parseInt(urlParams.get('clubId')) : null;
+
+                        if (rId) {
+                            openClub(rId);
+                        } else {
+                            showClubsList();
+                        }
+                    } else {
+                        showEmptyState();
+                    }
+                } else {
+                    showEmptyState();
+                }
+            } catch (e) {
+                console.error("Failed to load club details", e);
+                showEmptyState();
+            }
+        }
+
+        function showClubsList() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('pendingState').classList.add('hidden');
+            document.getElementById('clubContent').classList.add('hidden');
+            document.getElementById('clubsListState').classList.remove('hidden');
+            
+            // Clear URL param without reloading
+            window.history.replaceState({}, '', 'clubadmin-myclub.html');
+            
+            const grid = document.getElementById('myClubsGrid');
+            grid.innerHTML = '';
+            
+            allAdminClubs.forEach(club => {
+                let statusBadge = '';
+                if (club.approvalStatus === 'PENDING') {
+                    statusBadge = '<span class="px-3 py-1 bg-tertiary text-white rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 shadow-sm"><span class="material-symbols-outlined text-[12px] animate-pulse">history</span>Pending</span>';
+                } else if (club.approvalStatus === 'REJECTED') {
+                    statusBadge = '<span class="px-3 py-1 bg-error text-white rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 shadow-sm"><span class="material-symbols-outlined text-[12px]">block</span>Rejected</span>';
+                } else {
+                    statusBadge = '<span class="px-3 py-1 bg-secondary text-white rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 shadow-sm"><span class="material-symbols-outlined text-[12px]">verified</span>Approved</span>';
+                }
+
+                // If no logo, use a solid color block for visual consistency
+                const logoHtml = club.logoUrl 
+                    ? `<img src="${club.logoUrl}" class="w-full h-full object-cover">`
+                    : `<span class="material-symbols-outlined text-4xl text-primary/30">groups</span>`;
+
+                const btnHtml = club.approvalStatus === 'APPROVED' 
+                    ? '<span class="material-symbols-outlined text-sm">dashboard</span> Manage Dashboard' 
+                    : '<span class="material-symbols-outlined text-sm">visibility</span> View Details';
+
+                const card = `
+                    <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/20 flex flex-col justify-between group hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 cursor-pointer" onclick="openClub(${club.id})">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <div class="w-16 h-16 rounded-xl bg-slate-50 flex items-center justify-center overflow-hidden border border-outline-variant/10 shadow-sm relative shrink-0">
+                                    ${logoHtml}
+                                </div>
+                                ${statusBadge}
+                            </div>
+                            <div>
+                                <h3 class="font-headline text-xl font-bold text-on-surface mb-1">${club.name}</h3>
+                                <p class="text-on-surface-variant text-sm line-clamp-2">${club.description || 'No description provided.'}</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-outline-variant/10">
+                            <button class="w-full py-2.5 rounded-xl bg-primary/5 text-primary font-bold text-sm group-hover:bg-primary group-hover:text-white transition-colors flex justify-center items-center gap-2">
+                                ${btnHtml}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function openClub(id) {
+            const club = allAdminClubs.find(c => c.id === id);
+            if (!club) return;
+            
+            currentClubId = club.id;
+            window.history.replaceState({}, '', `clubadmin-myclub.html?clubId=${club.id}`);
+            
+            if (club.approvalStatus === 'PENDING') {
+                showPendingState(club);
+            } else {
+                showClubDashboard(club);
+            }
+        }
+
+        function renderClub(club) {
+            document.getElementById('clubTitle').textContent = club.name;
+            document.getElementById('clubEmail').textContent = club.email || 'No contact provided';
+            document.getElementById('categoryTag').textContent = club.category || 'General';
+            
+            // Handle logo
+            if (club.logoUrl) {
+                document.getElementById('clubLogoImg').src = club.logoUrl;
+                document.getElementById('clubLogoImg').classList.remove('hidden');
+                document.getElementById('clubLogoFallback').classList.add('hidden');
+            }
+            
+            // Handle cover
+            if (club.coverUrl) {
+                document.getElementById('clubCoverImg').src = club.coverUrl;
+            }
+
+            // Status Badge
+            const badge = document.getElementById('approvalBadge');
+            if (club.approvalStatus === 'PENDING') {
+                badge.className = "absolute top-6 right-6 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg flex items-center gap-2 bg-tertiary text-white";
+                badge.innerHTML = '<span class="material-symbols-outlined text-sm animate-pulse">history</span> Pending Approval';
+            } else if (club.approvalStatus === 'APPROVED') {
+                badge.className = "absolute top-6 right-6 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg flex items-center gap-2 bg-secondary text-white";
+                badge.innerHTML = '<span class="material-symbols-outlined text-sm">verified</span> Verified Club';
+            } else {
+                badge.className = "absolute top-6 right-6 px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg flex items-center gap-2 bg-error text-white";
+                badge.innerHTML = '<span class="material-symbols-outlined text-sm">block</span> Rejected';
+            }
+
+            // Populate new fields
+            document.getElementById('clubFrequency').textContent = club.eventFrequency || 'N/A';
+
+            const activitiesEl = document.getElementById('clubActivities');
+            if (club.plannedActivities) {
+                activitiesEl.innerHTML = club.plannedActivities.split(',').map(a => 
+                    `<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold">${a.trim()}</span>`
+                ).join('');
+            } else { activitiesEl.innerHTML = '<span class="text-sm text-slate-400">Not specified</span>'; }
+
+            const membershipEl = document.getElementById('clubMembership');
+            if (club.membershipType) {
+                membershipEl.innerHTML = club.membershipType.split(',').map(m => 
+                    `<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-semibold">${m.trim()}</span>`
+                ).join('');
+            } else { membershipEl.innerHTML = '<span class="text-sm text-slate-400">Not specified</span>'; }
+        }
+
+        async function loadClubEvents(clubId) {
+            const list = document.getElementById('eventsList');
+            try {
+                const res = await fetch(`/api/events/club/${clubId}`);
+                if (res.ok) {
+                    const events = await res.json();
+                    list.innerHTML = '';
+                    
+                    if (events.length === 0) {
+                        list.innerHTML = '<p class="text-slate-500 text-sm italic">No events published yet.</p>';
+                        return;
+                    }
+
+                    events.slice(0, 3).forEach(event => {
+                        const date = new Date(event.dateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                        const isPast = new Date(event.dateTime) < new Date();
+                        const html = `
+                            <div class="bg-surface-container-low/30 rounded-2xl p-5 border border-outline-variant/10 hover:border-primary/20 transition-all">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <span class="${isPast ? 'bg-slate-200 text-slate-600' : 'bg-primary/10 text-primary'} text-[0.625rem] font-bold px-2 py-0.5 rounded uppercase tracking-widest mb-2 inline-block">${isPast ? 'Past' : 'Upcoming'}</span>
+                                        <h3 class="font-bold text-on-surface text-lg">${event.title}</h3>
+                                        <p class="text-xs text-outline mt-1 flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">calendar_today</span> ${date}
+                                        </p>
+                                    </div>
+                                    <a class="text-primary text-xs font-bold hover:underline" href="clubadmin-editevent.html?id=${event.id}">Edit</a>
+                                </div>
+                            </div>
+                        `;
+                        list.insertAdjacentHTML('beforeend', html);
+                    });
+                }
+            } catch (e) {
+                list.innerHTML = '<p class="text-error text-sm italic">Error loading events.</p>';
+            }
+        }
+
+        async function loadMembershipData(clubId) {
+            try {
+                // Fetch Pending Requests
+                const pendingRes = await fetch(`/api/membership/pending/${clubId}`);
+                const pending = await pendingRes.json();
+                const pendingList = document.getElementById('pendingRequestsList');
+                const pendingCount = document.getElementById('pendingRequestsCount');
+                
+                pendingCount.textContent = `(${pending.length})`;
+                pendingList.innerHTML = '';
+                
+                if (pending.length === 0) {
+                    pendingList.innerHTML = '<p class="col-span-2 text-slate-500 text-sm italic py-4 text-center">No pending join requests at the moment.</p>';
+                } else {
+                    pending.forEach(req => {
+                        const date = new Date(req.joinDate).toLocaleDateString();
+                        const html = `
+                            <div class="flex items-center justify-between p-4 bg-surface-container-low/50 rounded-2xl border border-outline-variant/10">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden">
+                                        ${req.student.avatarUrl ? `<img src="${req.student.avatarUrl}" class="w-full h-full object-cover">` : `<span class="material-symbols-outlined text-slate-400">person</span>`}
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-on-surface">${req.student.name || 'Student'}</p>
+                                        <p class="text-xs text-outline">Applied ${date} • ${req.student.email}</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="rejectRequest(${req.id})" class="w-10 h-10 bg-error/10 text-error rounded-xl flex items-center justify-center hover:bg-error/20 transition-colors shadow-sm">
+                                        <span class="material-symbols-outlined text-sm">close</span>
+                                    </button>
+                                    <button onclick="approveRequest(${req.id})" class="w-10 h-10 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center hover:bg-secondary/20 transition-colors shadow-sm">
+                                        <span class="material-symbols-outlined text-sm">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        pendingList.insertAdjacentHTML('beforeend', html);
+                    });
+                }
+
+                // Fetch Active Members
+                const activeRes = await fetch(`/api/membership/active/${clubId}`);
+                const active = await activeRes.json();
+                const membersBody = document.getElementById('membersTableBody');
+                
+                membersBody.innerHTML = '';
+                document.getElementById('memberCount').textContent = active.length;
+
+                if (active.length === 0) {
+                    membersBody.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-slate-500 text-sm italic">No active members found.</td></tr>';
+                } else {
+                    active.forEach(member => {
+                        const date = new Date(member.joinDate).toLocaleDateString();
+                        const html = `
+                            <tr class="group hover:bg-surface-container-low transition-colors">
+                                <td class="py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+                                             ${member.student.avatarUrl ? `<img src="${member.student.avatarUrl}" class="w-full h-full object-cover">` : `<span class="material-symbols-outlined text-slate-400">person</span>`}
+                                        </div>
+                                        <div><p class="text-sm font-bold text-on-surface">${member.student.name || 'Member'}</p><p class="text-xs text-outline">${member.student.email}</p></div>
+                                    </div>
+                                </td>
+                                <td class="py-4"><span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase">Active</span></td>
+                                <td class="py-4 text-sm text-on-surface-variant">${date}</td>
+                                <td class="py-4 text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <button onclick="removeMember(${member.id}, '${member.student.name || 'this member'}')" class="w-8 h-8 rounded-lg bg-error/10 text-error flex items-center justify-center hover:bg-error/20 transition-colors" title="Remove Member">
+                                            <span class="material-symbols-outlined text-sm">person_remove</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        membersBody.insertAdjacentHTML('beforeend', html);
+                    });
+                }
+            } catch (e) {
+                console.error("Failed to load membership data", e);
+            }
+        }
+
+        async function approveRequest(id) {
+            try {
+                const res = await fetch(`/api/membership/approve/${id}`, { method: 'POST' });
+                if (res.ok) {
+                    showToast('🎉 Application Approved! Student is now a member.');
+                    loadMembershipData(currentClubId);
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function rejectRequest(id) {
+            if (!confirm("Are you sure you want to reject this request?")) return;
+            try {
+                const res = await fetch(`/api/membership/reject/${id}`, { method: 'POST' });
+                if (res.ok) {
+                    showToast('Application rejected.', 'error');
+                    loadMembershipData(currentClubId);
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function removeMember(id, name) {
+            if (!confirm(`Are you sure you want to remove ${name} from your club?`)) return;
+            try {
+                const res = await fetch(`/api/membership/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    showToast(`${name} has been removed from the club.`, 'error');
+                    loadMembershipData(currentClubId);
+                }
+            } catch (e) {
+                console.error("Failed to remove member", e);
+                showToast("Failed to remove member.", "error");
+            }
+        }
+
+        async function deleteClub(id) {
+            if (!confirm("CRITICAL: Are you sure you want to delete your club? This action will deactivate the club and cannot be undone through this portal.")) return;
+            
+            try {
+                const res = await fetch(`/api/clubs/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    showToast('Club has been deactivated successfully.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'clubadmin-dashboard.html';
+                    }, 1500);
+                }
+            } catch (e) {
+                console.error("Failed to delete club", e);
+                showToast("Failed to delete club.", "error");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Auto-refresh every 10 seconds to check if club has been approved
+        let autoRefreshInterval;
+        function startAutoRefresh() {
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(async () => {
+                try {
+                    // Even if currentClubId is null, we should try to fetch club if we are in emptyState
+                    // This handles the case where user just registered and we're waiting for the first appearance
+                    if (!currentClubId) {
+                        await checkUserClub();
+                        return;
+                    }
+                    
+                    const res = await fetch(`/api/clubs/${currentClubId}?t=${Date.now()}`);
+                    if (res.ok) {
+                        const club = await res.json();
+                        const pendingState = document.getElementById('pendingState');
+                        const clubContent = document.getElementById('clubContent');
+                        const emptyState = document.getElementById('emptyState');
+                        
+                        if (club.approvalStatus === 'APPROVED' && !pendingState.classList.contains('hidden')) {
+                            // Professional "Approved" transition
+                            console.log('Club Approved! Switching to dashboard...');
+                            showToast('🎉 Your club registration has been approved! Welcome aboard.');
+                            showClubDashboard(club);
+                        } else if (club.approvalStatus === 'APPROVED' && emptyState && !emptyState.classList.contains('hidden')) {
+                            // Case where it went from nothing to approved (rare but possible)
+                            showClubDashboard(club);
+                        } else if (club.approvalStatus === 'PENDING' && !emptyState.classList.contains('hidden')) {
+                            // Case where it went from nothing to pending
+                            showPendingState(club);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Auto-refresh error:", e);
+                }
+            }, 10000); // Check every 10 seconds
+        }
+
+        // Listen for visibility changes to refresh when page comes into focus
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                checkUserClub(); // Refresh immediately when tab becomes visible
+            }
+        });
+
+        // Initialize on page load
+        init();
+        startAutoRefresh();
+    </script>
+    <script src="assets/js/transitions.js"></script>
+</body>
+</html>

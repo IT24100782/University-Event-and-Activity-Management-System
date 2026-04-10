@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Club Details | Club Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "on-tertiary-container": "#ffcc55",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface": "#f8f9fa",
+                    "on-primary-fixed": "#001944",
+                    "primary": "#21417f",
+                    "surface-container": "#edeeef",
+                    "inverse-primary": "#afc6ff",
+                    "surface-variant": "#e1e3e4",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#ffdf9e",
+                    "background": "#f8f9fa",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e7e8e9",
+                    "outline": "#747781",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#66df75",
+                    "tertiary-fixed-dim": "#fabd00",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#254583",
+                    "tertiary": "#574000",
+                    "on-secondary-fixed-variant": "#00531a",
+                    "surface-bright": "#f8f9fa",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#d9e2ff",
+                    "on-secondary-fixed": "#002106",
+                    "secondary-container": "#80f98b",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-background": "#191c1d",
+                    "on-primary": "#ffffff",
+                    "secondary": "#006e25",
+                    "outline-variant": "#c4c6d2",
+                    "primary-fixed-dim": "#afc6ff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e3132",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#007327",
+                    "on-tertiary-fixed-variant": "#5b4300",
+                    "primary-container": "#3b5998",
+                    "surface-tint": "#3f5d9c",
+                    "on-tertiary-fixed": "#261a00",
+                    "secondary-fixed": "#83fc8e",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d9dadb",
+                    "surface-container-low": "#f3f4f5",
+                    "tertiary-container": "#745600",
+                    "on-surface-variant": "#444650",
+                    "on-primary-container": "#c2d2ff"
+                },
+                fontFamily: {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+                },
+                borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .form-input-focus:focus {
+        outline: none;
+        border-color: transparent;
+        --tw-ring-color: transparent;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 1px #74778133;
+    }
+    .editorial-shadow {
+        box-shadow: 0 12px 40px rgba(25, 28, 29, 0.06);
+    }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-surface/70 backdrop-blur-md">
+<div class="flex items-center justify-between px-6 py-4 w-full max-w-4xl mx-auto">
+<div class="flex items-center gap-2 group cursor-pointer transition-all duration-200 active:opacity-80" onclick="window.location.href='clubadmin-myclub.html'">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back">arrow_back</span>
+<span class="font-label text-sm text-on-surface-variant group-hover:text-primary transition-colors">Back to My Club</span>
+</div>
+<div class="hidden md:block">
+<span class="font-headline font-extrabold text-[#21417f] text-lg tracking-tight">SCHOLAR HUB</span>
+</div>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-12">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="font-headline font-bold text-3xl text-on-surface mb-2 tracking-tight">Edit Club Details</h1>
+<p class="font-body text-on-surface-variant text-base">Maintain your club's identity and leadership records.</p>
+</div>
+<form id="editClubForm" class="space-y-16">
+<!-- Section 1: Club Information -->
+<section class="space-y-8">
+<div class="flex items-center gap-3 pb-2 border-b border-outline-variant/15">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<h2 class="font-headline font-semibold text-xl">Club Information</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2 col-span-1">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Club Name</label>
+<input id="clubName" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface form-input-focus transition-all editorial-shadow" type="text"/>
+</div>
+<div class="space-y-2 col-span-1">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Club Category</label>
+<div class="relative">
+<select id="clubCategory" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface form-input-focus transition-all appearance-none editorial-shadow">
+<option value="Academic">Academic</option>
+<option value="Technology">Technology</option>
+<option value="Sports">Sports</option>
+<option value="Arts">Arts & Culture</option>
+<option value="Service">Community Service</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="space-y-2 col-span-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Official Contact Email</label>
+<input id="clubEmail" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface form-input-focus transition-all editorial-shadow" type="email"/>
+</div>
+<div class="space-y-2 col-span-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Mission Statement / Description</label>
+<textarea id="clubDescription" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface form-input-focus transition-all editorial-shadow resize-none" rows="5"></textarea>
+</div>
+</div>
+</section>
+<!-- Section 2: Leadership Committee -->
+<section class="space-y-8">
+<div class="flex items-center gap-3 pb-2 border-b border-outline-variant/15">
+<span class="material-symbols-outlined text-primary" data-icon="groups">groups</span>
+<h2 class="font-headline font-semibold text-xl">Leadership Committee</h2>
+</div>
+<div class="space-y-6">
+<!-- President Row -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col md:flex-row gap-6 items-end">
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">President Name</label>
+<input id="presidentName" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="text"/>
+</div>
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">President Email</label>
+<input id="presidentEmail" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="email"/>
+</div>
+</div>
+<!-- VP Row -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col md:flex-row gap-6 items-end">
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Vice President Name</label>
+<input id="vpName" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="text"/>
+</div>
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Vice President Email</label>
+<input id="vpEmail" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="email"/>
+</div>
+</div>
+<!-- Treasurer Row -->
+<div class="bg-surface-container-low p-6 rounded-xl flex flex-col md:flex-row gap-6 items-end">
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Treasurer Name</label>
+<input id="treasurerName" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="text"/>
+</div>
+<div class="flex-1 space-y-2 w-full">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Treasurer Email</label>
+<input id="treasurerEmail" class="w-full bg-surface-container-lowest border-none rounded-lg p-3 text-sm form-input-focus editorial-shadow" type="email"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Branding Assets -->
+<section class="space-y-8">
+<div class="flex items-center gap-3 pb-2 border-b border-outline-variant/15">
+<span class="material-symbols-outlined text-primary" data-icon="palette">palette</span>
+<h2 class="font-headline font-semibold text-xl">Branding Assets</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Club Logo -->
+<div class="col-span-1 space-y-3">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Club Logo</label>
+<div class="group relative aspect-square bg-surface-container-lowest border-2 border-dashed border-outline-variant/30 rounded-xl flex flex-col items-center justify-center p-6 hover:bg-surface-container-low transition-all cursor-pointer overflow-hidden editorial-shadow" onclick="document.getElementById('logoInput').click()">
+<img id="logoPreview" class="w-full h-full object-cover hidden" src=""/>
+<div id="logoPlaceholder" class="w-16 h-16 bg-primary-fixed rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="code">code</span>
+</div>
+<span class="text-xs font-semibold text-primary">Replace Logo</span>
+<span class="text-[10px] text-outline mt-1">PNG, SVG up to 2MB</span>
+</div>
+<input id="logoInput" type="file" accept="image/*" class="hidden" onchange="handleLogoUpload(event)"/>
+</div>
+<!-- Cover Photo -->
+<div class="col-span-1 md:col-span-2 space-y-3">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Cover Photo</label>
+<div class="group relative aspect-[21/9] bg-surface-container-lowest border-2 border-dashed border-outline-variant/30 rounded-xl flex flex-col items-center justify-center overflow-hidden hover:bg-surface-container-low transition-all cursor-pointer editorial-shadow" onclick="document.getElementById('coverInput').click()">
+<img id="coverPreview" alt="Club Banner" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-opacity group-hover:opacity-40 hidden" src=""/>
+<img id="coverPlaceholder" alt="Club Banner" class="absolute inset-0 w-full h-full object-cover opacity-60 transition-opacity group-hover:opacity-40" src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1600"/>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-on-surface text-3xl mb-2" data-icon="image">image</span>
+<span class="text-xs font-semibold text-on-surface">Update Cover Image</span>
+<span class="text-[10px] text-on-surface-variant mt-1">Recommended: 1200x400px</span>
+</div>
+</div>
+<input id="coverInput" type="file" accept="image/*" class="hidden" onchange="handleCoverUpload(event)"/>
+</div>
+</div>
+</section>
+<!-- Section 4: Activities & Membership -->
+<section class="space-y-8">
+<div class="flex items-center gap-3 pb-2 border-b border-outline-variant/15">
+<span class="material-symbols-outlined text-primary" data-icon="event">event</span>
+<h2 class="font-headline font-semibold text-xl">Activities & Membership</h2>
+</div>
+<div class="space-y-6">
+<div class="space-y-3">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Planned Activities</label>
+<div class="grid grid-cols-2 gap-3" id="activitiesGroup">
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Workshops" class="accent-primary w-4 h-4"> <span class="text-sm">Workshops</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Hackathons" class="accent-primary w-4 h-4"> <span class="text-sm">Hackathons</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Seminars" class="accent-primary w-4 h-4"> <span class="text-sm">Seminars</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Community Outreach" class="accent-primary w-4 h-4"> <span class="text-sm">Community Outreach</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Social Events" class="accent-primary w-4 h-4"> <span class="text-sm">Social Events</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Competitions" class="accent-primary w-4 h-4"> <span class="text-sm">Competitions</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Tech Talks" class="accent-primary w-4 h-4"> <span class="text-sm">Tech Talks</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="activities" value="Sports Tournaments" class="accent-primary w-4 h-4"> <span class="text-sm">Sports Tournaments</span></label>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Frequency of Events</label>
+<div class="relative">
+<select id="eventFrequency" class="w-full bg-surface-container-lowest border-none rounded-lg p-4 text-on-surface form-input-focus transition-all appearance-none editorial-shadow">
+<option value="">Select Frequency</option>
+<option value="Weekly">Weekly</option>
+<option value="Bi-Weekly">Bi-Weekly</option>
+<option value="Monthly">Monthly</option>
+<option value="Quarterly">Quarterly</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="space-y-3">
+<label class="font-label text-[0.6875rem] uppercase tracking-wider text-outline font-semibold">Membership Types</label>
+<div class="grid grid-cols-2 gap-3" id="membershipGroup">
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="membershipType" value="Free" class="accent-primary w-4 h-4"> <span class="text-sm">Free</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="membershipType" value="Paid - Semester" class="accent-primary w-4 h-4"> <span class="text-sm">Paid - Semester</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="membershipType" value="Paid - Annual" class="accent-primary w-4 h-4"> <span class="text-sm">Paid - Annual</span></label>
+<label class="flex items-center gap-2.5 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container-low transition-all"><input type="checkbox" name="membershipType" value="Donation-Based" class="accent-primary w-4 h-4"> <span class="text-sm">Donation-Based</span></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<footer class="pt-12 flex flex-col sm:flex-row items-center justify-end gap-4 border-t border-outline-variant/15">
+<button class="w-full sm:w-auto px-8 py-3 rounded-lg text-primary font-semibold hover:bg-surface-container-high transition-colors duration-200" type="button" onclick="window.location.href='clubadmin-myclub.html'">
+Cancel
+</button>
+<button id="submitBtn" class="w-full sm:w-auto px-10 py-3 rounded-lg bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold editorial-shadow hover:scale-[1.02] active:scale-95 transition-all duration-200" type="submit">
+Save Changes
+</button>
+</footer>
+</form>
+</main>
+<!-- Success Toast -->
+<div id="successToast" class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full flex items-center gap-3 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-medium">Changes saved successfully</span>
+</div>
+</body>
+<script>
+let currentClubId = null;
+let oldClubData = null;
+let logoFile = null;
+let coverFile = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentClubId = urlParams.get('id');
+    
+    if (!currentClubId) {
+        window.location.href = 'clubadmin-myclub.html';
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/clubs/${currentClubId}`);
+        if (res.ok) {
+            const club = await res.json();
+            oldClubData = club;
+            populateForm(club);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+function populateForm(club) {
+    document.getElementById('clubName').value = club.name || '';
+    document.getElementById('clubCategory').value = club.category || 'Academic';
+    document.getElementById('clubDescription').value = club.description || '';
+    document.getElementById('clubEmail').value = club.email || '';
+    
+    document.getElementById('presidentName').value = club.presidentName || '';
+    document.getElementById('presidentEmail').value = club.presidentEmail || '';
+    document.getElementById('vpName').value = club.vpName || '';
+    document.getElementById('vpEmail').value = club.vpEmail || '';
+    document.getElementById('treasurerName').value = club.treasurerName || '';
+    document.getElementById('treasurerEmail').value = club.treasurerEmail || '';
+    
+    if (club.logoUrl) {
+        document.getElementById('logoPreview').src = club.logoUrl;
+        document.getElementById('logoPreview').classList.remove('hidden');
+        document.getElementById('logoPlaceholder').classList.add('hidden');
+    }
+    if (club.coverUrl) {
+        document.getElementById('coverPreview').src = club.coverUrl;
+        document.getElementById('coverPreview').classList.remove('hidden');
+        document.getElementById('coverPlaceholder').classList.add('hidden');
+    }
+
+    // Populate new fields
+    if (club.eventFrequency) {
+        document.getElementById('eventFrequency').value = club.eventFrequency;
+    }
+    if (club.plannedActivities) {
+        const activities = club.plannedActivities.split(',').map(a => a.trim());
+        document.querySelectorAll('input[name="activities"]').forEach(cb => {
+            if (activities.includes(cb.value)) cb.checked = true;
+        });
+    }
+    if (club.membershipType) {
+        const types = club.membershipType.split(',').map(t => t.trim());
+        document.querySelectorAll('input[name="membershipType"]').forEach(cb => {
+            if (types.includes(cb.value)) cb.checked = true;
+        });
+    }
+}
+
+async function handleLogoUpload(event) {
+    logoFile = event.target.files[0];
+    if (logoFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('logoPreview').src = e.target.result;
+            document.getElementById('logoPreview').classList.remove('hidden');
+            document.getElementById('logoPlaceholder').classList.add('hidden');
+        };
+        reader.readAsDataURL(logoFile);
+    }
+}
+
+async function handleCoverUpload(event) {
+    coverFile = event.target.files[0];
+    if (coverFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('coverPreview').src = e.target.result;
+            document.getElementById('coverPreview').classList.remove('hidden');
+            document.getElementById('coverPlaceholder').classList.add('hidden');
+        };
+        reader.readAsDataURL(coverFile);
+    }
+}
+
+async function uploadFile(file) {
+    if (!file) return null;
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+        const res = await fetch('/api/upload', {method: 'POST', body: formData});
+        if (res.ok) return (await res.json()).url;
+    } catch (e) {
+        console.error(e);
+    }
+    return null;
+}
+
+document.getElementById('editClubForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm" style="font-variation-settings: 'FILL' 1">sync</span> Saving...`;
+
+    let logoUrl = oldClubData.logoUrl || '';
+    let coverUrl = oldClubData.coverUrl || '';
+    
+    if (logoFile) logoUrl = await uploadFile(logoFile) || logoUrl;
+    if (coverFile) coverUrl = await uploadFile(coverFile) || coverUrl;
+
+    const updatedClub = {
+        ...oldClubData,
+        name: document.getElementById('clubName').value,
+        category: document.getElementById('clubCategory').value,
+        description: document.getElementById('clubDescription').value,
+        email: document.getElementById('clubEmail').value,
+        presidentName: document.getElementById('presidentName').value,
+        presidentEmail: document.getElementById('presidentEmail').value,
+        vpName: document.getElementById('vpName').value,
+        vpEmail: document.getElementById('vpEmail').value,
+        treasurerName: document.getElementById('treasurerName').value,
+        treasurerEmail: document.getElementById('treasurerEmail').value,
+        logoUrl: logoUrl,
+        coverUrl: coverUrl,
+        plannedActivities: Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(cb => cb.value).join(','),
+        eventFrequency: document.getElementById('eventFrequency').value,
+        membershipType: Array.from(document.querySelectorAll('input[name="membershipType"]:checked')).map(cb => cb.value).join(',')
+    };
+
+    try {
+        const res = await fetch(`/api/clubs/${currentClubId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedClub)
+        });
+        if (res.ok) {
+            document.getElementById('successToast').classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            setTimeout(() => {
+                window.location.href = 'clubadmin-myclub.html';
+            }, 1500);
+        } else {
+            alert("Update failed.");
+            btn.disabled = false;
+            btn.innerHTML = "Save Changes";
+        }
+    } catch (err) {
+        alert(err.message);
+        btn.disabled = false;
+        btn.innerHTML = "Save Changes";
+    }
+});
+</script>
+</html>
