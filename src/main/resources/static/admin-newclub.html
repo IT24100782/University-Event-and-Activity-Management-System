@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Register New Club | Scholar Hub Admin</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#21417f","primary-container": "#3b5998","on-primary": "#ffffff","primary-fixed": "#d9e2ff","on-primary-fixed": "#001944","secondary": "#006e25","secondary-container": "#80f98b","on-secondary": "#ffffff","on-secondary-container": "#007327","error": "#ba1a1a","error-container": "#ffdad6","on-error": "#ffffff","on-error-container": "#93000a","surface": "#f8f9fa","surface-container-low": "#f3f4f5","surface-container": "#edeeef","surface-container-high": "#e7e8e9","surface-container-lowest": "#ffffff","on-surface": "#191c1d","on-surface-variant": "#444650","background": "#f8f9fa","outline": "#747781","outline-variant": "#c4c6d2"
+          },
+          fontFamily: { "headline": ["Manrope"], "body": ["Inter"] },
+          borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+  </style>
+</head>
+<body class="text-on-surface min-h-screen flex flex-col">
+
+<!-- TopNavBar Shell from Dashboard -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center">
+  <div class="flex justify-between items-center w-full px-8 max-w-7xl mx-auto">
+    <div class="flex items-center gap-8">
+      <img src="assets/images/logo.png" alt="SLIIT Events Hub" class="h-10 object-contain">
+      <nav class="hidden md:flex items-center gap-6 font-['Manrope'] font-semibold tracking-tight">
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-dashboard.html">Dashboard</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-user.html">Users</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-events.html">Events</a>
+        <a class="text-primary border-b-2 border-primary pb-1" href="admin-clubs.html">Clubs</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-venue.html">Venues</a>
+        <a class="text-slate-500 hover:text-primary transition-colors" href="admin-feedback.html">Feedback</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="relative hidden lg:block">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+        <input class="bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm w-64 focus:ring-primary focus:border-primary transition-all" placeholder="Search resources..." type="text"/>
+      </div>
+      <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg relative">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+      </button>
+      <button class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+      <div class="flex items-center gap-2 pl-2 border-l border-slate-200 relative cursor-pointer" onclick="document.getElementById('profileDropdown').classList.toggle('hidden')">
+        <div class="h-9 w-9 rounded-full overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center">
+          <span class="material-symbols-outlined text-slate-500">person</span>
+        </div>
+        <span class="text-sm font-semibold text-slate-700 hidden lg:block">Admin User</span>
+        <div id="profileDropdown" class="hidden absolute top-full right-0 mt-4 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+            <a href="login.html" class="flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors font-semibold">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                Logout
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="flex-grow max-w-3xl mx-auto px-8 py-12 space-y-8 w-full">
+  <div class="flex items-center gap-3">
+    <a class="text-primary hover:opacity-80 flex items-center gap-1 font-medium" href="admin-clubs.html"><span class="material-symbols-outlined">arrow_back</span>Back to Clubs</a>
+  </div>
+  <div>
+    <h1 class="text-3xl font-['Manrope'] font-extrabold text-primary mb-1">Register New Club</h1>
+    <p class="text-on-surface-variant">Fill in the details to officially register a new student organization.</p>
+  </div>
+  
+  <form id="newClubForm" class="space-y-8">
+    <!-- Section: Basic Info -->
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-primary"></div>
+        <h2 class="font-['Manrope'] font-bold text-lg">Basic Information</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Club Name</label>
+          <input id="clubName" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="e.g. Robotics Society" type="text"/>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Category</label>
+          <div class="relative">
+            <select id="clubCategory" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none">
+              <option disabled selected value="">Select Category</option>
+              <option value="Education & Literature">Education & Literature</option>
+              <option value="Athletics & Sports">Athletics & Sports</option>
+              <option value="Technology">Technology</option>
+              <option value="Arts & Culture">Arts & Culture</option>
+              <option value="Community Service">Community Service</option>
+              <option value="Adventure">Adventure</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+          </div>
+        </div>
+        <div class="md:col-span-2 space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Description / Mission Statement</label>
+          <textarea id="clubDescription" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all h-28 resize-none" placeholder="Describe the club's purpose, goals, and activities..."></textarea>
+        </div>
+        
+        <!-- NEW IMAGE UPLOADS -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline text-primary">Profile Icon (Logo)</label>
+          <input id="clubLogo" type="file" accept="image/*" class="w-full bg-surface-container-low rounded-lg px-4 py-2.5 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all"/>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline text-primary">Cover Photo</label>
+          <input id="clubCover" type="file" accept="image/*" class="w-full bg-surface-container-low rounded-lg px-4 py-2.5 text-sm border-none focus:ring-2 focus:ring-primary/20 transition-all"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Leadership -->
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-primary"></div>
+        <h2 class="font-['Manrope'] font-bold text-lg">Leadership</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="space-y-1.5 md:col-span-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">President Email</label>
+          <input id="presidentEmail" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20" placeholder="president@university.edu" type="email"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Contact -->
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-primary"></div>
+        <h2 class="font-['Manrope'] font-bold text-lg">Contact</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="space-y-1.5 md:col-span-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-outline">Club Official Email</label>
+          <input id="clubEmail" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20" placeholder="contact@club.university.edu" type="email"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Activities & Membership -->
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 shadow-sm p-6 space-y-5">
+      <div class="flex items-center gap-3 border-b border-outline-variant/20 pb-4">
+        <div class="w-1.5 h-6 rounded-full bg-secondary"></div>
+        <h2 class="font-['Manrope'] font-bold text-lg">Activities & Membership</h2>
+      </div>
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Planned Activities</label>
+        <div class="grid grid-cols-2 gap-3" id="activitiesGroup">
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Workshops" class="accent-primary w-4 h-4"> <span class="text-sm">Workshops</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Hackathons" class="accent-primary w-4 h-4"> <span class="text-sm">Hackathons</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Seminars" class="accent-primary w-4 h-4"> <span class="text-sm">Seminars</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Community Outreach" class="accent-primary w-4 h-4"> <span class="text-sm">Community Outreach</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Social Events" class="accent-primary w-4 h-4"> <span class="text-sm">Social Events</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Competitions" class="accent-primary w-4 h-4"> <span class="text-sm">Competitions</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Tech Talks" class="accent-primary w-4 h-4"> <span class="text-sm">Tech Talks</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="activities" value="Sports Tournaments" class="accent-primary w-4 h-4"> <span class="text-sm">Sports Tournaments</span>
+          </label>
+        </div>
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Frequency of Events</label>
+        <select id="eventFrequency" required class="w-full bg-surface-container-low rounded-lg px-4 py-3 text-sm border-none focus:ring-2 focus:ring-primary/20 appearance-none">
+          <option disabled selected value="">Select Frequency</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Bi-Weekly">Bi-Weekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+        </select>
+      </div>
+      <div class="space-y-2">
+        <label class="text-xs font-bold uppercase tracking-wider text-outline">Membership Types</label>
+        <div class="grid grid-cols-2 gap-3" id="membershipGroup">
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Free" class="accent-secondary w-4 h-4"> <span class="text-sm">Free</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Paid - Semester" class="accent-secondary w-4 h-4"> <span class="text-sm">Paid - Semester</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Paid - Annual" class="accent-secondary w-4 h-4"> <span class="text-sm">Paid - Annual</span>
+          </label>
+          <label class="flex items-center gap-2.5 bg-surface-container-low rounded-lg px-4 py-3 cursor-pointer hover:bg-surface-container transition-all">
+            <input type="checkbox" name="membershipType" value="Donation-Based" class="accent-secondary w-4 h-4"> <span class="text-sm">Donation-Based</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <div class="flex gap-4 pt-4">
+      <button id="submitBtn" class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all shadow-md flex justify-center items-center gap-2" type="submit">
+        <span>Register Club</span>
+      </button>
+      <a class="flex-1 py-3 bg-surface-container text-on-surface rounded-xl font-bold hover:bg-surface-container-high transition-all text-center" href="admin-clubs.html">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto">
+  <div class="max-w-[1400px] mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p class="text-xs">© 2024 Scholar Hub Admin. University Event Management System.</p>
+    <div class="flex gap-6 text-xs uppercase tracking-widest font-bold">
+      <a class="hover:text-white" href="#">Privacy Policy</a>
+      <a class="hover:text-white" href="#">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Helper to upload a file to /api/upload
+  async function uploadFile(fileInput) {
+    if (!fileInput.files || fileInput.files.length === 0) return null;
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.url; 
+      }
+      return null;
+    } catch (e) {
+      console.error("Upload failed", e);
+      return null;
+    }
+  }
+
+  document.getElementById('newClubForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">progress_activity</span> Processing...`;
+
+    // 1. Upload Images
+    let logoUrl = await uploadFile(document.getElementById('clubLogo'));
+    let coverUrl = await uploadFile(document.getElementById('clubCover'));
+
+    // 2. Build JSON
+    const clubData = {
+      name: document.getElementById('clubName').value,
+      category: document.getElementById('clubCategory').value,
+      description: document.getElementById('clubDescription').value,
+      presidentEmail: document.getElementById('presidentEmail').value,
+      email: document.getElementById('clubEmail').value,
+      logoUrl: logoUrl || "",
+      coverUrl: coverUrl || "",
+      active: true,
+      approvalStatus: "PENDING",
+      plannedActivities: Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(cb => cb.value).join(','),
+      eventFrequency: document.getElementById('eventFrequency').value,
+      membershipType: Array.from(document.querySelectorAll('input[name="membershipType"]:checked')).map(cb => cb.value).join(',')
+    };
+
+    // 3. Submit
+    try {
+      const resp = await fetch('/api/clubs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clubData)
+      });
+      if (resp.ok) {
+        showSuccessPopup("Club registration submitted successfully! Administrators will review your organization soon.", "back");
+      } else {
+        alert("Failed to register the club. Check backend logs.");
+        btn.disabled = false;
+        btn.innerHTML = `Register Club`;
+      }
+    } catch(err) {
+      console.error(err);
+      alert("Network error.");
+      btn.disabled = false;
+      btn.innerHTML = `Register Club`;
+    }
+  });
+
+  function showSuccessPopup(message, action) {
+    const popup = document.getElementById('successPopup');
+    document.getElementById('successPopupMessage').textContent = message;
+    
+    const btn = document.getElementById('successPopupButton');
+    if (action === 'back') {
+        btn.textContent = 'Back to Clubs';
+        btn.onclick = () => window.location.href = 'admin-clubs.html';
+    }
+
+    popup.classList.remove('hidden');
+  }
+</script>
+
+<!-- Success Popup -->
+<div id="successPopup" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+    <div class="bg-white rounded-[2rem] shadow-2xl max-w-sm w-full overflow-hidden transform animate-in zoom-in-95 duration-500">
+        <div class="p-10 text-center">
+            <div class="mb-8">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                    <span class="material-symbols-outlined text-5xl text-green-600">check_circle</span>
+                </div>
+            </div>
+            <h3 class="text-3xl font-extrabold text-slate-900 mb-3 font-headline">Success!</h3>
+            <p id="successPopupMessage" class="text-slate-500 leading-relaxed mb-10">Your submission was successful.</p>
+            <button id="successPopupButton" class="w-full px-8 py-4 rounded-2xl font-bold text-white bg-primary hover:bg-[#1a3465] shadow-xl shadow-primary/20 active:scale-95 transition-all text-lg">
+                Done
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/transitions.js"></script>
+</body>
+</html>
