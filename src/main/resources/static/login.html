@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/transitions.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#2e3132",
+              "primary": "#21417f",
+              "outline": "#747781",
+              "on-tertiary": "#ffffff",
+              "tertiary": "#574000",
+              "surface-dim": "#d9dadb",
+              "surface-container-high": "#e7e8e9",
+              "outline-variant": "#c4c6d2",
+              "primary-container": "#3b5998",
+              "on-tertiary-container": "#ffcc55",
+              "inverse-primary": "#afc6ff",
+              "surface-container": "#edeeef",
+              "on-background": "#191c1d",
+              "on-error-container": "#93000a",
+              "surface-tint": "#3f5d9c",
+              "on-tertiary-fixed": "#261a00",
+              "primary-fixed": "#d9e2ff",
+              "primary-fixed-dim": "#afc6ff",
+              "secondary": "#006e25",
+              "on-secondary-container": "#007327",
+              "surface-container-highest": "#e1e3e4",
+              "secondary-fixed-dim": "#66df75",
+              "background": "#f8f9fa",
+              "tertiary-fixed": "#ffdf9e",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#191c1d",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#c2d2ff",
+              "error": "#ba1a1a",
+              "surface-container-low": "#f3f4f5",
+              "surface": "#f8f9fa",
+              "secondary-fixed": "#83fc8e",
+              "on-surface-variant": "#444650",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f0f1f2",
+              "tertiary-fixed-dim": "#fabd00",
+              "on-primary-fixed": "#001944",
+              "tertiary-container": "#745600",
+              "surface-bright": "#f8f9fa",
+              "on-secondary-fixed": "#002106",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#00531a",
+              "on-error": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "secondary-container": "#80f98b",
+              "on-primary-fixed-variant": "#254583",
+              "on-tertiary-fixed-variant": "#5b4300"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .brand-gradient {
+        background: linear-gradient(135deg, #21417f 0%, #3b5998 100%);
+      }
+      .soft-elevated {
+        box-shadow: 0 12px 40px rgba(25, 28, 29, 0.06);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<div class="min-h-screen flex flex-col items-center justify-center p-6 sm:p-12">
+<!-- Main Card -->
+        <main class="w-full max-w-[480px] bg-surface-container-lowest rounded-xl soft-elevated p-8 sm:p-12 relative overflow-hidden" data-flip-id="authCard">
+            <!-- Logo area -->
+            <div class="flex flex-col items-center mb-8 stagger-grid revealed">
+                <img src="assets/images/logo.png" alt="SLIIT Event Hub" class="h-16 w-auto object-contain">
+            </div>
+
+            <!-- Role selection tabs -->
+            <div class="flex p-1 bg-surface-container-low rounded-xl gap-1 mb-8">
+                <button onclick="setLoginRole('STUDENT')" id="studentTab" class="flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm ring-1 ring-black/5 flex items-center justify-center gap-2 interactive-spring">
+                    <span class="material-symbols-outlined text-[18px]">school</span>
+                    Student
+                </button>
+                <button onclick="setLoginRole('CLUB_ADMIN')" id="clubTab" class="flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 text-on-surface-variant hover:bg-surface-container-high flex items-center justify-center gap-2 interactive-spring">
+                    <span class="material-symbols-outlined text-[18px]">groups</span>
+                    Club
+                </button>
+                <button onclick="setLoginRole('ADMIN')" id="adminTab" class="flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 text-on-surface-variant hover:bg-surface-container-high flex items-center justify-center gap-2 interactive-spring">
+                    <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                    Admin
+                </button>
+            </div>
+            <input type="hidden" id="loginRole" value="STUDENT">
+
+            <h1 id="roleTitle" class="font-headline text-3xl font-bold text-on-surface tracking-tight mb-2">Student Portal</h1>
+            <p id="roleDesc" class="text-on-surface-variant text-sm mb-10">Access your academic workspace</p>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6 stagger-grid revealed">
+                <!-- Email Field -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-on-surface" for="loginEmail">Email address</label>
+                    <input id="loginEmail" required class="w-full h-14 bg-surface-container-low border-none rounded-lg px-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="example@my.sliit.lk" type="email"/>
+                </div>
+                <!-- Password Field -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-on-surface" for="loginPassword">Password</label>
+                    <div class="relative flex items-center">
+                        <input id="loginPassword" required class="w-full h-14 bg-surface-container-low border-none rounded-lg px-4 pr-12 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="Enter your password" type="password"/>
+                        <button class="absolute right-4 text-outline hover:text-primary transition-colors" type="button" onclick="const p=document.getElementById('loginPassword'); p.type=p.type==='password'?'text':'password'">
+                            <span class="material-symbols-outlined">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Remember & Forgot -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input class="rounded-sm border-outline-variant text-primary focus:ring-primary/20 size-4" type="checkbox"/>
+                        <span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+                    </label>
+                    <a class="text-sm font-medium text-primary hover:text-primary-container transition-colors underline-offset-4 hover:underline" href="#">Forgot password?</a>
+                </div>
+                <!-- Sign In Button -->
+                <button class="w-full h-14 brand-gradient text-on-primary font-semibold rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 magnetic-btn" type="submit">
+                    <span>Sign in</span>
+                    <span class="material-symbols-outlined text-[20px]">login</span>
+                </button>
+            </form>
+
+        <!-- Demo Credentials Alert (Fixed for Super Admin) -->
+        <div id="demoHint" class="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10 hidden">
+            <div class="flex items-center gap-2 text-primary mb-1">
+                <span class="material-symbols-outlined text-[18px]">info</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider">Super Admin Login</span>
+            </div>
+            <p class="text-[12px] text-on-surface-variant leading-relaxed">
+                Email: <span class="font-mono font-bold text-primary">superadmin@gmail.com</span><br>
+                Pass: <span class="font-mono font-bold text-primary">Admin2004@</span>
+            </p>
+        </div>
+        </main>
+
+    <!-- Footer -->
+    <div class="mt-10 text-center">
+        <p id="signupToggle" class="text-sm text-on-surface-variant">
+            Don't have an account?
+            <a class="text-primary font-semibold hover:underline underline-offset-4 ml-1" href="signup.html">Sign up</a>
+        </p>
+    </div>
+</div>
+
+<!-- External Links/Legal -->
+<div class="mt-8 flex gap-6 text-[12px] font-medium text-outline">
+    <a class="hover:text-on-surface transition-colors" href="#">Help Center</a>
+    <a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a>
+    <a class="hover:text-on-surface transition-colors" href="#">Terms of Service</a>
+</div>
+
+    <script>
+        function setLoginRole(role) {
+            document.getElementById('loginRole').value = role;
+            const tabs = ['studentTab', 'clubTab', 'adminTab'];
+            const activeClass = "bg-surface-container-lowest text-primary shadow-sm ring-1 ring-black/5";
+            const inactiveClass = "text-on-surface-variant hover:bg-surface-container-high";
+            
+            tabs.forEach(tabId => {
+                const btn = document.getElementById(tabId);
+                if ((tabId === 'studentTab' && role === 'STUDENT') || 
+                    (tabId === 'clubTab' && role === 'CLUB_ADMIN') || 
+                    (tabId === 'adminTab' && role === 'ADMIN')) {
+                    btn.className = `flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 ${activeClass} flex items-center justify-center gap-2`;
+                } else {
+                    btn.className = `flex-1 py-3 text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-200 ${inactiveClass} flex items-center justify-center gap-2`;
+                }
+            });
+
+            // Update Titles
+            const title = document.getElementById('roleTitle');
+            const desc = document.getElementById('roleDesc');
+            const hint = document.getElementById('demoHint');
+            const signupToggle = document.getElementById('signupToggle');
+
+            const emailInput = document.getElementById('loginEmail');
+
+            if (role === 'STUDENT') {
+                title.innerText = "Student Portal";
+                desc.innerText = "Access your academic workspace";
+                emailInput.placeholder = "itXXXXXX@my.sliit.lk";
+                hint.classList.add('hidden');
+                signupToggle.classList.remove('hidden');
+            } else if (role === 'CLUB_ADMIN') {
+                title.innerText = "Club Administration";
+                desc.innerText = "Manage your organization and events";
+                emailInput.placeholder = "ieee@my.sliit.lk";
+                hint.classList.add('hidden');
+                signupToggle.classList.remove('hidden');
+            } else {
+                title.innerText = "System Admin";
+                desc.innerText = "Platform oversight and management";
+                emailInput.placeholder = "admin@university.com";
+                hint.classList.remove('hidden');
+                signupToggle.classList.add('hidden'); // Cannot sign up as admin
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const role = document.getElementById('loginRole').value;
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            // University email validation for Student & Club Admin
+            if (role === 'STUDENT' || role === 'CLUB_ADMIN') {
+                if (!email.toLowerCase().endsWith('@my.sliit.lk')) {
+                    alert("Please use your university email (@my.sliit.lk)");
+                    return;
+                }
+            }
+
+            const payload = { email, password };
+
+            try {
+                const res = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    const user = await res.json();
+                    
+                    // Verify if the logged in user's role matches the selected tab
+                    if (user.role !== role) {
+                        alert(`Access Denied: This account is registered as ${user.role}, not ${role}.`);
+                        return;
+                    }
+
+                    localStorage.setItem('user', JSON.stringify(user));
+                    
+                    if (user.role === 'STUDENT') {
+                        window.location.href = 'student-dashboard.html';
+                    } else if (user.role === 'CLUB_ADMIN') {
+                        if (user.approvalStatus === 'PENDING') {
+                            window.location.href = 'clubadmin-registrationpending.html';
+                        } else {
+                            window.location.href = 'clubadmin-dashboard.html';
+                        }
+                    } else if (user.role === 'ADMIN') {
+                        window.location.href = 'admin-dashboard.html';
+                    }
+                } else {
+                    const errorMsg = await res.text();
+                    alert(errorMsg || "Login failed. Please check your credentials.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("An error occurred during sign in.");
+            }
+        });
+
+        // Initialize with Student role
+        setLoginRole('STUDENT');
+    </script>
+    <script src="assets/js/transitions.js"></script>
+    </body></html>
