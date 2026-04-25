@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Scholar Hub - Student Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/transitions.css">
+    <script src="assets/js/data-sync.js"></script>
+    <script src="assets/js/transitions.js" defer></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#002106",
+                        "surface-container-highest": "#e1e3e4",
+                        "background": "#f8f9fa",
+                        "surface-variant": "#e1e3e4",
+                        "primary-container": "#3b5998",
+                        "outline": "#747781",
+                        "primary": "#21417f",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ffcc55",
+                        "on-error": "#ffffff",
+                        "secondary": "#006e25",
+                        "on-tertiary-fixed": "#261a00",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeeef",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#c2d2ff",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed-variant": "#254583",
+                        "surface-dim": "#d9dadb",
+                        "on-surface-variant": "#444650",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary": "#574000",
+                        "inverse-primary": "#afc6ff",
+                        "on-secondary-fixed-variant": "#00531a",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdf9e",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#afc6ff",
+                        "surface-tint": "#3f5d9c",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface": "#191c1d",
+                        "secondary-fixed-dim": "#66df75",
+                        "on-background": "#191c1d",
+                        "secondary-fixed": "#83fc8e",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#80f98b",
+                        "primary-fixed": "#d9e2ff",
+                        "outline-variant": "#c4c6d2",
+                        "tertiary-fixed-dim": "#fabd00",
+                        "on-tertiary-fixed-variant": "#5b4300",
+                        "tertiary-container": "#745600",
+                        "on-primary-fixed": "#001944",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary-container": "#007327",
+                        "surface-container-high": "#e7e8e9"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 h-16 flex items-center">
+    <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+        <div class="flex items-center gap-12">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='student-dashboard.html'">
+                <img src="assets/images/logo.png" alt="Scholar Hub" class="h-8 md:h-10" data-flip-id="app-logo">
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a class="text-primary font-bold border-b-2 border-primary pb-1 text-sm transition-all" href="student-dashboard.html">Dashboard</a>
+                <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="student-event.html">Events</a>
+                <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="student-clubs.html">Clubs</a>
+                <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="student-venues.html">Venues</a>
+                <a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="student-feedback.html">Feedback</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                <span class="material-symbols-outlined text-outline">notifications</span>
+            </button>
+            <div class="flex items-center gap-3 pl-3 border-l border-slate-200 relative cursor-pointer group" onclick="document.getElementById('profileDropdown').classList.toggle('hidden')">
+                <div class="h-9 w-9 rounded-full overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center" data-flip-id="user-profile">
+                    <span class="material-symbols-outlined text-slate-500">person</span>
+                </div>
+                <span id="userName" class="text-sm font-semibold text-slate-700 hidden lg:block">Student User</span>
+                <span class="material-symbols-outlined text-sm text-slate-400">expand_more</span>
+                
+                <div id="profileDropdown" class="hidden absolute top-full right-0 mt-4 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+                    <div class="px-4 py-2 border-b border-slate-100 mb-1">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Account</p>
+                    </div>
+                    <a href="profile.html" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">person</span>
+                        My Profile
+                    </a>
+                    <div class="h-[1px] bg-slate-100 my-1 mx-2"></div>
+                    <a href="javascript:void(0)" onclick="logout()" class="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold">
+                        <span class="material-symbols-outlined text-[18px]">logout</span>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="flex min-h-screen justify-center">
+    <main class="max-w-7xl mx-auto px-6 py-12 w-full motion-fade-scale">
+        <!-- Hero Header -->
+        <section class="mb-10 relative rounded-2xl overflow-hidden bg-primary-container p-12 flex flex-col items-center justify-center text-center text-white min-h-[300px]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-container opacity-90"></div>
+            <div class="relative z-10 max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-extrabold font-headline mb-4 tracking-tight">Orchestrate University Life</h1>
+                <p id="welcomeMessage" class="text-lg opacity-90 font-body mb-8">Welcome back. Stay organized and connected with your campus ecosystem.</p>
+                <div class="flex flex-col md:flex-row gap-2 bg-white/10 backdrop-blur-md p-2 rounded-xl">
+                    <div class="flex-1 flex items-center bg-white rounded-lg px-4 text-on-surface">
+                        <span class="material-symbols-outlined text-outline">search</span>
+                        <input id="globalSearch" class="w-full border-none focus:ring-0 text-sm font-body py-3" placeholder="Search events, clubs, or venues..." type="text"/>
+                    </div>
+                    <button class="bg-[#3B5998] hover:bg-[#21417f] transition-colors text-white px-8 py-3 rounded-lg font-bold font-headline text-sm whitespace-nowrap magnetic-btn" onclick="window.location.href='student-clubs.html'">Find Clubs</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions Bento Grid -->
+        <section class="mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-grid">
+                <button onclick="window.location.href='student-event.html'" class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl hover:bg-primary-fixed transition-colors shadow-sm group">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">event_available</span>
+                    </div>
+                    <span class="text-sm font-bold font-manrope">Upcoming Events</span>
+                </button>
+                <button id="registerNowBtn" onclick="window.location.href='student-event.html'" class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl hover:bg-secondary-fixed transition-colors shadow-sm group">
+                    <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-3 group-hover:bg-secondary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">person_add</span>
+                    </div>
+                    <span class="text-sm font-bold font-manrope">Register Now</span>
+                </button>
+                <button onclick="window.location.href='student-clubs.html'" class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl hover:bg-tertiary-fixed transition-colors shadow-sm group">
+                    <div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center mb-3 group-hover:bg-tertiary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                    <span class="text-sm font-bold font-manrope">Join a Club</span>
+                </button>
+                <button class="flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl hover:bg-primary-fixed transition-colors shadow-sm group">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">calendar_today</span>
+                    </div>
+                    <span class="text-sm font-bold font-manrope">My Schedule</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Events -->
+        <section class="mb-12">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-extrabold font-headline">Featured Events</h2>
+                    <p class="text-outline text-sm">Hand-picked highlights for your academic journey</p>
+                </div>
+                <a class="text-primary font-bold text-sm hover:underline" href="student-event.html">View All Events</a>
+            </div>
+            <div id="featuredEventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Data populated via JS -->
+                 <p class="text-slate-400">Loading events...</p>
+            </div>
+        </section>
+
+        <!-- Popular Clubs & Calendar -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div class="lg:col-span-2">
+                <h2 class="text-2xl font-extrabold font-headline mb-6">Newly Published Clubs</h2>
+                <div id="popularClubsContainer" class="space-y-4">
+                    <!-- Data populated via JS -->
+                </div>
+            </div>
+            <div class="flex flex-col gap-8">
+                <!-- Calendar Widget -->
+                <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="calendarMonth" class="text-sm font-bold font-manrope">October 2024</span>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-[10px] text-center mb-2 text-outline">
+                        <div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div>
+                    </div>
+                    <div id="calendarDays" class="grid grid-cols-7 gap-1 text-[11px] text-center mb-4">
+                        <!-- Simplified -->
+                    </div>
+                </div>
+                <!-- Promo Banner -->
+                <div class="bg-[#3B5998] rounded-2xl p-8 text-white relative overflow-hidden group h-full flex flex-col justify-center">
+                    <h3 class="text-2xl font-extrabold font-headline mb-4 relative z-10">Want to showcase your event?</h3>
+                    <p class="text-sm opacity-80 mb-8 font-body relative z-10">Get featured on the home dashboard and reach thousands of students instantly.</p>
+                    <button class="w-full bg-white text-primary font-bold py-4 rounded-xl hover:bg-surface-container transition-colors font-headline text-sm relative z-10">Apply for Featured Slot</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            document.getElementById('welcomeMessage').textContent = `Welcome back, ${user.name}. Stay organized and connected with your campus ecosystem.`;
+            document.getElementById('userName').textContent = user.name;
+            
+            const isAdmin = user && (user.role === 'ADMIN' || user.role === 'CLUB_ADMIN');
+            if(isAdmin) {
+                const regBtn = document.getElementById('registerNowBtn');
+                if(regBtn) regBtn.classList.add('hidden');
+            }
+        }
+
+        fetchFeaturedEvents();
+        fetchNewlyPublishedClubs();
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileBtn = dropdown.parentElement;
+            if (dropdown && !profileBtn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    });
+
+    function logout() {
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    }
+
+    async function fetchFeaturedEvents() {
+        try {
+            const resp = await fetch(`/api/events?t=${Date.now()}`);
+            const events = await resp.json();
+            const container = document.getElementById('featuredEventsContainer');
+            container.innerHTML = '';
+            
+            // Show first 4 events as featured
+            events.slice(0, 4).forEach(ev => {
+                const date = new Date(ev.startTime);
+                const month = date.toLocaleString('default', { month: 'short' }).toUpperCase();
+                const day = date.getDate();
+                
+                const card = `
+                    <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm group cursor-pointer" onclick="window.location.href='student-event-detail.html?id=${ev.id}'">
+                        <div class="relative h-40">
+                            <img alt="${ev.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${ev.posterUrl || 'https://images.unsplash.com/photo-1540575861501-7ad05823c94b?auto=format&fit=crop&q=80&w=2070'}"/>
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-center min-w-[40px]">
+                                <span class="block text-xs font-bold leading-tight">${month}</span>
+                                <span class="block text-lg font-extrabold leading-tight text-primary">${day}</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1 block">${ev.eventType || 'Event'}</span>
+                            <h3 class="text-md font-bold font-manrope mb-2 line-clamp-1">${ev.title}</h3>
+                            <div class="flex items-center gap-1 text-outline text-xs mb-4">
+                                <span class="material-symbols-outlined text-[14px]">location_on</span>
+                                <span>${ev.venue ? ev.venue.name : ev.location || 'Campus'}</span>
+                            </div>
+                            <div class="text-xs font-bold text-primary hover:text-primary-container transition-colors flex items-center gap-1">
+                                View Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } catch (e) {
+            console.error("Failed to load featured events", e);
+        }
+    }
+
+    async function fetchNewlyPublishedClubs() {
+        try {
+            const resp = await fetch(`/api/clubs/admin/approved?t=${Date.now()}`);
+            let clubs = await resp.json();
+            const container = document.getElementById('popularClubsContainer');
+            container.innerHTML = '';
+            
+            // Sort by ID descending to get "newly published" (newest first)
+            clubs.sort((a, b) => b.id - a.id);
+            
+            const user = JSON.parse(localStorage.getItem('user'));
+            
+            // Show only first 3
+            clubs.slice(0, 3).forEach(club => {
+                const isMyClub = user && user.role === 'CLUB_ADMIN' && club.organizerId === user.id;
+                const profileUrl = isMyClub ? 'clubadmin-myclub.html' : `student-viewclubdetails.html?id=${club.id}`;
+                
+                const card = `
+                    <div class="bg-surface-container-lowest rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4 group hover:bg-surface-container-low transition-colors shadow-sm">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                            <img alt="${club.name}" class="w-full h-full object-cover" src="${club.logoUrl || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400'}"/>
+                        </div>
+                        <div class="flex-1 text-center sm:text-left">
+                            <h4 class="font-bold font-manrope text-on-surface">${club.name}</h4>
+                            <p class="text-xs text-outline">${club.category || 'Development'} • ${club.description ? club.description.slice(0, 50) + '...' : 'Connect with this community'}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="window.location.href='${profileUrl}'" class="px-4 py-2 text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-colors">View Profile</button>
+                            <button onclick="window.location.href='student-joinclubform.html?id=${club.id}'" class="px-4 py-2 text-xs font-bold text-white bg-[#3B5998] hover:bg-primary-container rounded-lg transition-colors">Join Club</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } catch (e) {
+            console.error("Failed to load popular clubs", e);
+        }
+    }
+</script>
+</body>
+</html>
